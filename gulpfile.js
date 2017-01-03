@@ -1,12 +1,9 @@
 var path = require("path");
 var gulp = require("gulp");
 var clean = require('gulp-clean');
-var flatten = require('gulp-flatten')
 var concat = require('gulp-concat')
 var typescript = require("gulp-typescript");
-var less = require("gulp-less");
 var tsconfig = require('./tsconfig.json');
-var glob = require("glob");
 var fs = require("fs");
 
 const libs = "lib.source";
