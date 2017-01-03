@@ -1,6 +1,6 @@
-# Library js v1.0.3
+# Library js
 
-Set of javascript classes & function, which can be used in work process
+Set of javascript classes & functions, which can be used in work process
 Plus typescript converter and concatenation.
 
 ### Arc
@@ -62,11 +62,17 @@ not(undefined); //true
 
 ### or()
 It chooses first existing object
+```javascript
+var c = or([null, null, undefined, 72, 12, null, "hi"]); //c = 72
+```
 
 ### rand()
 More simple random function
 ```javascript
-var r = rand(1, 10);
+var r = rand(1, 10); //r = 7
+var r = rand(1, 10); //r = 1
+var r = rand(1, 10); //r = 6
+var r = rand(1, 10); //r = 10
 ```
 
 ### round()

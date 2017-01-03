@@ -35,17 +35,27 @@ gulp.task("concat", function() { //concat typescript
   ;
 });
 gulp.task("set-exported", function() { //add export { ... };
+  //Import exported list
   var list = require(path.join(src, "/export.json"));
-  var exportList = "\nexport { ";
+  var exportList = "";
   for(let module of list) {
     exportList += module + ", ";
   }
   exportList = exportList.substr(0, exportList.length - 2);
-  exportList += " };";
 
-  exportList = fs.readFileSync(path.join(dist, libs + ".ts")) + exportList;
+  //Create module map
+  var indexTS = "export { " + exportList + " } from './dist/lib';";
+  var indexTSpath = path.join(__dirname, "index.ts");
+  fs.writeFile(indexTSpath, indexTS, function(err) {
+    gulp.src(indexTSpath)
+      .pipe(typescript(tsconfig.compilerOptions))
+      .pipe(gulp.dest(__dirname))
+    ;
+  });
 
-  return fs.writeFile(path.join(dist, exportedLibs + ".ts"), exportList, function(err) {});
+  //Create exported lib ts file
+  var exportedLibsContent = fs.readFileSync(path.join(dist, libs + ".ts")) + "\n" + "export { " + exportList + " };";
+  return fs.writeFile(path.join(dist, exportedLibs + ".ts"), exportedLibsContent, function(err) {});
 });
 gulp.task("typescript", function() { //compile typescript
   return gulp.src(path.join(dist, "/*.ts"))

@@ -1,0 +1,11 @@
+"use strict";
+var lib_1 = require("./dist/lib");
+exports.Arc = lib_1.Arc;
+exports.Timer = lib_1.Timer;
+exports.Events = lib_1.Events;
+exports.is = lib_1.is;
+exports.not = lib_1.not;
+exports.or = lib_1.or;
+exports.rand = lib_1.rand;
+exports.randtext = lib_1.randtext;
+exports.round = lib_1.round;
