@@ -1,4 +1,4 @@
-//More short round function
+//Superior round function
 function round(n,e) {
   var p;
   p = Math.pow(10,e);

@@ -1,3 +1,8 @@
+## v1.0.3
+3 jan 2016
+
+* Added documentation
+
 ## v1.0.2
 3 jan 2016
 
