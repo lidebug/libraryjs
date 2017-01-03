@@ -1,0 +1,28 @@
+{
+  "name": "libraryjs",
+  "description": "Set of javascript classes & function, which can be used in work process",
+  "version": "1.0.1",
+  "scripts": {
+    "start": "npm run gulp",
+    "gulp": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lidebug/workshop.git"
+  },
+  "author": {
+    "name": "Li Debug",
+    "email": "returninfinity8@gmail.com"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "*",
+    "gulp-clean": "*",
+    "gulp-concat": "*",
+    "gulp-flatten": "*",
+    "gulp-less": "*",
+    "gulp-tsconfig": "*",
+    "gulp-typescript": "*",
+    "typescript": "*"
+  }
+}
