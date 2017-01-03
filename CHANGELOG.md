@@ -1,3 +1,8 @@
+## v1.0.2
+3 jan 2016
+
+* Fixed npm version bag
+
 ## v1.0.1
 3 jan 2016
 
