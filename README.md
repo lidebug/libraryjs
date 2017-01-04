@@ -63,6 +63,7 @@ is(NaN); //false
 is(0); //true
 is(""); //true
 is([]); //true
+is({}); //true
 is("hello"); //true
 ```
 
