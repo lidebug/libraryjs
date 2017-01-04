@@ -3,6 +3,7 @@ var lib_1 = require("./dist/lib");
 exports.Arc = lib_1.Arc;
 exports.Timer = lib_1.Timer;
 exports.Events = lib_1.Events;
+exports.Async = lib_1.Async;
 exports.is = lib_1.is;
 exports.not = lib_1.not;
 exports.or = lib_1.or;

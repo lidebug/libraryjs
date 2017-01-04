@@ -1,5 +1,6 @@
 var path = require("path");
 var gulp = require("gulp");
+var gulpsync = require("gulp-sync")(gulp);
 var clean = require('gulp-clean');
 var concat = require('gulp-concat')
 var typescript = require("gulp-typescript");
@@ -12,16 +13,7 @@ const src = path.join(__dirname,"/source");
 const dist = path.join(__dirname,"/dist");
 
 
-gulp.task("default", ["clean-sync"]);
-gulp.task("clean-sync", ["clean"], function() {
-  gulp.start("concat-sync");
-});
-gulp.task("concat-sync", ["concat"], function() {
-  gulp.start("set-exported-sync");
-});
-gulp.task("set-exported-sync", ["set-exported"], function() {
-  gulp.start("typescript");
-});
+gulp.task("default", gulpsync.sync([ "clean", "concat", "export", "typescript" ]));
 
 gulp.task("clean", function() { //delete old files
   return gulp.src(path.join(dist))
@@ -34,7 +26,7 @@ gulp.task("concat", function() { //concat typescript
     .pipe(gulp.dest(path.join(dist)))
   ;
 });
-gulp.task("set-exported", function() { //add export { ... };
+gulp.task("export", function() { //add export { ... };
   //Import exported list
   var list = require(path.join(src, "/export.json"));
   var exportList = "";

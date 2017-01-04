@@ -30,8 +30,20 @@ events.push(function() { console.log("fun 3"); });
 events.call();
 ```
 
+### Async
+Superior Promise
+```javascript
+var msg = new Async();
+
+setTimeout(() => {
+  msg.set("Haha!");
+}, 3000);
+
+msg.then(function(res) { console.log(res) });
+```
+
 ### Timer
-It's just timer...
+It's just a timer...
 ```javascript
 var timer = new Timer();
 timer.start();

@@ -44,6 +44,26 @@ var Arc = (function () {
     };
     return Arc;
 }());
+//Superior Promise
+var Async = (function () {
+    function Async() {
+        this.onload = new Events();
+    }
+    Async.prototype.then = function (res) {
+        this.onload.push(res);
+        if (is(this.value)) {
+            this.set(this.value);
+            this.value = null;
+        }
+    };
+    Async.prototype.set = function (value) {
+        if (this.onload.events.length > 0)
+            this.onload.call(value);
+        else
+            this.value = value;
+    };
+    return Async;
+}());
 //Easy way to call lots of functions
 var Events = (function () {
     function Events() {
