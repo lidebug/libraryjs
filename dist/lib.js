@@ -90,16 +90,12 @@ var Events = (function () {
 exports.Events = Events;
 //Is object exist?
 function is(obj) {
-    if (obj !== null && obj !== undefined) {
-        if (typeof (obj) == 'string' || typeof (obj) == 'object' || typeof (obj) == 'number' || typeof (obj) == 'boolean' || typeof (obj) == 'function')
-            return true;
-        else if (isNaN(obj))
-            return false;
-        else
-            return true;
-    }
-    else
+    if (obj === null || obj === undefined)
         return false;
+    if (isNaN(obj) && typeof (obj) === "number")
+        return false;
+    else
+        return true;
 }
 exports.is = is;
 //Not exist?

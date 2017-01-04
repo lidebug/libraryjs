@@ -1,3 +1,8 @@
+## v1.0.9
+4 jan 2017
+
+* recompile all
+
 ## v1.0.8
 4 jan 2017
 

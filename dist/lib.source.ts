@@ -1,6 +1,6 @@
 //Superior array
 class Arc {
-  array:Object;
+  array:any;
   length:number;
   id:number;
   constructor() {
@@ -48,17 +48,17 @@ class Arc {
   }
 }
 //Superior Promise
-class Async {
-  value:any;
+class Async<T> {
+  value:T;
   onload:Events;
   constructor() {
     this.onload = new Events();
   }
-  then(res:any) {
+  then(res:Function) {
     this.onload.push(res);
     if (is(this.value)) res(this.value);
   }
-  set(value:any) {
+  set(value:T) {
     this.value = value;
     this.onload.call(value);
   }
@@ -70,11 +70,11 @@ class Events {
     this.events = new Arc();
   }
 
-  add(name:string, event:any) {
+  add(name:string, event:Function) {
     this.events.add(name, event);
   }
 
-  push(event:any) {
+  push(event:Function) {
     return this.events.push(event);
   }
 
@@ -93,12 +93,9 @@ class Events {
 
 //Is object exist?
 function is(obj) {
-  if (obj !== null && obj !== undefined) {
-    if (typeof(obj)=='string' || typeof(obj)=='object' || typeof(obj)=='number' || typeof(obj)=='boolean' || typeof(obj)=='function') return true;
-    else if (isNaN(obj)) return false;
-    else return true;
-  }
-  else return false;
+  if (obj === null || obj === undefined) return false;
+  if (isNaN(obj) && typeof(obj) === "number") return false;
+  else return true;
 }
 
 //Not exist?
