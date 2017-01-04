@@ -1,3 +1,8 @@
+## v1.0.6
+4 jan 2017
+
+* class Async fixed
+
 ## v1.0.5
 4 jan 2017
 

@@ -56,14 +56,11 @@ class Async {
   }
   then(res:any) {
     this.onload.push(res);
-    if (is(this.value)) {
-      this.set(this.value);
-      this.value = null;
-    }
+    if (is(this.value)) res(this.value);
   }
   set(value:any) {
-    if (this.onload.events.length > 0) this.onload.call(value);
-    else this.value = value;
+    this.value = value;
+    this.onload.call(value);
   }
 }
 //Easy way to call lots of functions
