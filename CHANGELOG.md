@@ -1,7 +1,12 @@
+## v1.0.7
+4 jan 2017
+
+* Types of a lot of classes & functions was fixed
+
 ## v1.0.6
 4 jan 2017
 
-* class Async fixed
+* class Async was fixed
 
 ## v1.0.5
 4 jan 2017

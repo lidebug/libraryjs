@@ -1,6 +1,6 @@
 //Superior array
 class Arc {
-  array:Object;
+  array:any;
   length:number;
   id:number;
   constructor() {

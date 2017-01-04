@@ -5,11 +5,11 @@ class Events {
     this.events = new Arc();
   }
 
-  add(name:string, event:any) {
+  add(name:string, event:Function) {
     this.events.add(name, event);
   }
 
-  push(event:any) {
+  push(event:Function) {
     return this.events.push(event);
   }
 

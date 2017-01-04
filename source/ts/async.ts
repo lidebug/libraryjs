@@ -1,15 +1,15 @@
 //Superior Promise
-class Async {
-  value:any;
+class Async<T> {
+  value:T;
   onload:Events;
   constructor() {
     this.onload = new Events();
   }
-  then(res:any) {
+  then(res:Function) {
     this.onload.push(res);
     if (is(this.value)) res(this.value);
   }
-  set(value:any) {
+  set(value:T) {
     this.value = value;
     this.onload.call(value);
   }
