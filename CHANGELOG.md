@@ -1,3 +1,8 @@
+## v1.0.10
+
+* Arc is Generic now
+* libraryjs don't load self node_modules anymore.
+
 ## v1.0.9
 4 jan 2017
 

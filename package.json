@@ -1,7 +1,7 @@
 {
   "name": "libraryjs",
   "description": "Set of javascript classes & functions, which can be used in work process",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "scripts": {
     "start": "npm run gulp",
     "gulp": "gulp"
@@ -15,7 +15,7 @@
     "email": "returninfinity8@gmail.com"
   },
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
     "gulp-concat": "^2.6.1",

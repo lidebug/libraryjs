@@ -35,7 +35,7 @@ Superior Promise
 ```javascript
 var msg = new Async();
 
-setTimeout(() => {
+setTimeout(function() {
   msg.set("Haha!");
 }, 3000);
 

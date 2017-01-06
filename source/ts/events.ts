@@ -1,6 +1,6 @@
 //Easy way to call lots of functions
 class Events {
-  events:Arc;
+  events:Arc<Function>;
   constructor() {
     this.events = new Arc();
   }

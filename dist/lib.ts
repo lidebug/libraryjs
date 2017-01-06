@@ -1,5 +1,5 @@
 //Superior array
-class Arc {
+class Arc<T> {
   array:any;
   length:number;
   id:number;
@@ -9,12 +9,12 @@ class Arc {
     this.id = 0;
   }
 
-  add(name:string, value:any) {
+  add(name:string, value:T) {
     if (not(this.array[name])) this.length++;
     this.array[name] = value;
   }
 
-  push(value:any) {
+  push(value:T) {
     var id:string = "arcUnicId" + this.id;
     this.id++;
     this.add(id, value);
@@ -31,8 +31,8 @@ class Arc {
     delete this.array[name];
   }
 
-  search(value:any) {
-    var valueLocal:any;
+  search(value:T) {
+    var valueLocal:T;
     for(let i in this.array) {
       valueLocal = this.value(i);
       if (valueLocal == value) return i;
@@ -65,7 +65,7 @@ class Async<T> {
 }
 //Easy way to call lots of functions
 class Events {
-  events:Arc;
+  events:Arc<Function>;
   constructor() {
     this.events = new Arc();
   }
@@ -147,7 +147,7 @@ function round(n,e) {
   p = Math.pow(10,e);
   return Math.round(n*p)/p;
 }
-//It's just timer...
+//It's just a timer...
 class Timer {
   triggers:any = {};
   intervalId:any;
