@@ -64,7 +64,7 @@ var Async = (function () {
 }());
 exports.Async = Async;
 //Easy way to check that any parameters aren't set.
-function chain(list) {
+function check(list) {
     if (not(list))
         return false;
     if (not(list.length))
@@ -86,7 +86,7 @@ function chain(list) {
     }
     return true;
 }
-exports.chain = chain;
+exports.check = check;
 //Easy way to call lots of functions
 var Events = (function () {
     function Events() {

@@ -79,12 +79,12 @@ It chooses first existing object
 var c = or([null, null, undefined, 72, 12, null, "hi"]); //c = 72
 ```
 
-### chain()
+### check()
 Easy way to check that any parameters aren't set.
 ```javascript
-function somefunction(clients, name, product, itsNotNecessary) {
-  if (!chain([
-    [clients, "hire"],
+function somefunction(person, name, product, itsNotNecessary) {
+  if (!check([
+    [person, "age"],
     [name],
     [product, "body", "name"],
     [product, "body", "charge"],
@@ -93,13 +93,14 @@ function somefunction(clients, name, product, itsNotNecessary) {
     console.log("Error. Some parameters aren't set.");
     return;
   }
+  //"itsNotNecessary" is optional variable
   console.log("Oh right!");
 }
 
 somefunction(
   {
-    hire: 12,
-    itsNotNecessaryToo: "random text"
+    age: 35,
+    something: "random text" //optional variable
   },
   "Arnold",
   {
@@ -107,7 +108,7 @@ somefunction(
       name: "pizza",
       charge: "5$",
       type: "margherita",
-      itsNotNecessaryToo: "i don't care"
+      itsNotNecessaryToo: "i don't care" //optional variable
     }
   }
 );

@@ -64,7 +64,7 @@ class Async<T> {
   }
 }
 //Easy way to check that any parameters aren't set.
-function chain(list:Array<any>) {
+function check(list:Array<any>) {
   if (not(list)) return false;
   if (not(list.length)) return false;
   for(let items of list) {
@@ -219,4 +219,4 @@ class Timer {
     return v.replay;
   }
 }
-export { Arc, Timer, Events, Async, is, not, or, chain, rand, randtext, round };
+export { Arc, Timer, Events, Async, is, not, or, check, rand, randtext, round };

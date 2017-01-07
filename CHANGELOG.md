@@ -1,5 +1,10 @@
+## v1.0.12
+7 jan 2017
+
+* renamed chain() -> check();
+
 ## v1.0.11
-??
+7 jan 2017
 
 * New function: chain()
 * More strongly typed of some lib

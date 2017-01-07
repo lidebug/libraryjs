@@ -61,7 +61,7 @@ var Async = (function () {
     return Async;
 }());
 //Easy way to check that any parameters aren't set.
-function chain(list) {
+function check(list) {
     if (not(list))
         return false;
     if (not(list.length))
