@@ -79,6 +79,40 @@ It chooses first existing object
 var c = or([null, null, undefined, 72, 12, null, "hi"]); //c = 72
 ```
 
+### chain()
+Easy way to check that any parameters aren't set.
+```javascript
+function somefunction(clients, name, product, itsNotNecessary) {
+  if (!chain([
+    [clients, "hire"],
+    [name],
+    [product, "body", "name"],
+    [product, "body", "charge"],
+    [product, "body", "type"]
+  ])) {
+    console.log("Error. Some parameters aren't set.");
+    return;
+  }
+  console.log("Oh right!");
+}
+
+somefunction(
+  {
+    hire: 12,
+    itsNotNecessaryToo: "random text"
+  },
+  "Arnold",
+  {
+    body: {
+      name: "pizza",
+      charge: "5$",
+      type: "margherita",
+      itsNotNecessaryToo: "i don't care"
+    }
+  }
+);
+```
+
 ### rand()
 More simple random function
 ```javascript

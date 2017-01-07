@@ -60,6 +60,29 @@ var Async = (function () {
     };
     return Async;
 }());
+//Easy way to check that any parameters aren't set.
+function chain(list) {
+    if (not(list))
+        return false;
+    if (not(list.length))
+        return false;
+    for (var _i = 0, list_1 = list; _i < list_1.length; _i++) {
+        var items = list_1[_i];
+        if (not(items))
+            return false;
+        if (not(items.length))
+            return false;
+        var parent = items[0];
+        if (not(parent))
+            return false;
+        for (var i = 1; i < items.length; i++) {
+            parent = parent[items[i]];
+            if (not(parent))
+                return false;
+        }
+    }
+    return true;
+}
 //Easy way to call lots of functions
 var Events = (function () {
     function Events() {
@@ -98,12 +121,11 @@ function not(obj) {
     return !is(obj);
 }
 //Choose first existing object
-function or(array) {
-    var k;
-    for (k in array) {
-        if (is(array[k])) {
-            return array[k];
-        }
+function or(list) {
+    for (var _i = 0, list_2 = list; _i < list_2.length; _i++) {
+        var value = list_2[_i];
+        if (is(value))
+            return value;
     }
     return null;
 }

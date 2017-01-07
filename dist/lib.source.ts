@@ -63,6 +63,22 @@ class Async<T> {
     this.onload.call(value);
   }
 }
+//Easy way to check that any parameters aren't set.
+function chain(list:Array<any>) {
+  if (not(list)) return false;
+  if (not(list.length)) return false;
+  for(let items of list) {
+    if(not(items)) return false;
+    if(not(items.length)) return false;
+    var parent = items[0];
+    if (not(parent)) return false;
+    for(let i = 1; i < items.length; i++) {
+      parent = parent[items[i]];
+      if (not(parent)) return false;
+    }
+  }
+  return true;
+}
 //Easy way to call lots of functions
 class Events {
   events:Arc<Function>;
@@ -92,24 +108,21 @@ class Events {
 }
 
 //Is object exist?
-function is(obj) {
+function is(obj:any) {
   if (obj === null || obj === undefined) return false;
   if (isNaN(obj) && typeof(obj) === "number") return false;
   else return true;
 }
 
 //Not exist?
-function not(obj) {
+function not(obj:any) {
   return !is(obj);
 }
 
 //Choose first existing object
-function or(array) {
-  var k;
-  for(k in array) {
-    if (is(array[k])) {
-      return array[k];
-    }
+function or(list:Array<any>) {
+  for(let value of list) {
+    if (is(value)) return value;
   }
   return null;
 }
@@ -126,7 +139,7 @@ function rand(a:number, b:number):number {
   return d;
 }
 //Print random string
-function randtext(len) {
+function randtext(len:number):string {
   var trace:string = "";
   for(let i=0; i<len; i++) {
     trace += getrandalf();
@@ -134,16 +147,16 @@ function randtext(len) {
   return trace;
 }
 
-function getrandalf() {
-  var a = rand(0,25);
+function getrandalf():string {
+  var a:number = rand(0,25);
   
   var alf = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
   
   return alf[a];
 }
 //Superior round function
-function round(n,e) {
-  var p;
+function round(n:number, e:number):number {
+  var p:number;
   p = Math.pow(10,e);
   return Math.round(n*p)/p;
 }

@@ -1,4 +1,11 @@
+## v1.0.11
+??
+
+* New function: chain()
+* More strongly typed of some lib
+
 ## v1.0.10
+6 jan 2017
 
 * Arc is Generic now
 * libraryjs don't load self node_modules anymore.

@@ -7,6 +7,7 @@ exports.Async = lib_1.Async;
 exports.is = lib_1.is;
 exports.not = lib_1.not;
 exports.or = lib_1.or;
+exports.chain = lib_1.chain;
 exports.rand = lib_1.rand;
 exports.randtext = lib_1.randtext;
 exports.round = lib_1.round;
