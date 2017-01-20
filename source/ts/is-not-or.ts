@@ -1,7 +1,6 @@
 //Is object exist?
 function is(obj:any) {
   if (obj === null || obj === undefined) return false;
-  if (isNaN(obj) && typeof(obj) === "number") return false;
   else return true;
 }
 

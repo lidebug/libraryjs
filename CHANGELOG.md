@@ -1,3 +1,8 @@
+## v1.0.13
+20 jan 2017
+
+* isNaN is buged. Removed from is()
+
 ## v1.0.12
 7 jan 2017
 

@@ -111,8 +111,6 @@ var Events = (function () {
 function is(obj) {
     if (obj === null || obj === undefined)
         return false;
-    if (isNaN(obj) && typeof (obj) === "number")
-        return false;
     else
         return true;
 }

@@ -59,7 +59,7 @@ Is object exist?
 ```javascript
 is(null); //false
 is(undefined); //false
-is(NaN); //false
+is(NaN); //true
 is(0); //true
 is(""); //true
 is([]); //true

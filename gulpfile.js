@@ -11,6 +11,7 @@ const libs = "lib.source";
 const exportedLibs = "lib";
 const src = path.join(__dirname,"/source");
 const dist = path.join(__dirname,"/dist");
+const test = path.join(__dirname,"/test");
 
 
 gulp.task("default", gulpsync.sync([ "clean", "concat", "export", "typescript" ]));
@@ -52,6 +53,6 @@ gulp.task("export", function() { //add export { ... };
 gulp.task("typescript", function() { //compile typescript
   return gulp.src(path.join(dist, "/*.ts"))
     .pipe(typescript(tsconfig.compilerOptions))
-    .pipe(gulp.dest(path.join(dist)))
+    .pipe(gulp.dest(dist))
   ;
 });
