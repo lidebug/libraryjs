@@ -159,14 +159,13 @@ function round(n:number, e:number):number {
   p = Math.pow(10,e);
   return Math.round(n*p)/p;
 }
-//It's just timer...
+//It's just a timer...
 class Timer {
   triggers:any = {};
-  intervalId:any;
+  intervalId:number;
+  subscribeEvents:Events;
   constructor() {
     this.triggers.isStarted = false;
-    this.triggers.time = 0;
-    this.triggers.checkpoint = 0;
     this.start();
   }
 
@@ -174,8 +173,9 @@ class Timer {
   start() {
     this.pause();
 
-    this.triggers.time = 0;
+    this.triggers.counted = 0;
     this.triggers.checkpoint = 0;
+    this.subscribeEvents = new Events();
 
     this.go();
   }
@@ -185,6 +185,7 @@ class Timer {
     if (!this.triggers.isStarted) return;
     
     clearInterval(this.intervalId);
+    this.triggers.counted = this.triggers.time;
     
     this.triggers.isStarted = false;
   }
@@ -194,16 +195,21 @@ class Timer {
     var f = this;
     if (this.triggers.isStarted) return;
     
+    this.triggers.startpoint = Date.now();
     this.intervalId = setInterval(function() {
-      f.triggers.time++;
-    }, 10);
+      f.subscribeEvents.call(f.ms());
+    }, 13);
     
     this.triggers.isStarted = true;
   }
 
   //show counted time
+  ms() {
+    this.triggers.time = Date.now() - this.triggers.startpoint + this.triggers.counted;
+    return this.triggers.time;
+  }
   s() {
-    return this.triggers.time/100;
+    return round(this.ms()/1000, 3);
   }
 
   //show counted time + left time since last checkpoint 
@@ -211,10 +217,15 @@ class Timer {
     var v:any = {};
     
     v.sec = this.s();
-    v.delay = round(v.sec - this.triggers.checkpoint, 4);
+    v.delay = round(v.sec - this.triggers.checkpoint, 3); //v.delay uses new $time
     this.triggers.checkpoint = v.sec; //after v.delay, couse v.delay uses last $checkpoint
     
-    v.replay = v.sec + "sec (+" + v.delay + ")";
+    v.replay = v.sec + " (+" + v.delay + ") sec";
     return v.replay;
+  }
+
+  //subscribe to timer
+  subscribe(e:Function) {
+    this.subscribeEvents.push(e);
   }
 }

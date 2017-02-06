@@ -170,20 +170,19 @@ function round(n, e) {
     return Math.round(n * p) / p;
 }
 exports.round = round;
-//It's just timer...
+//It's just a timer...
 var Timer = (function () {
     function Timer() {
         this.triggers = {};
         this.triggers.isStarted = false;
-        this.triggers.time = 0;
-        this.triggers.checkpoint = 0;
         this.start();
     }
     //start, restart
     Timer.prototype.start = function () {
         this.pause();
-        this.triggers.time = 0;
+        this.triggers.counted = 0;
         this.triggers.checkpoint = 0;
+        this.subscribeEvents = new Events();
         this.go();
     };
     //pause
@@ -191,6 +190,7 @@ var Timer = (function () {
         if (!this.triggers.isStarted)
             return;
         clearInterval(this.intervalId);
+        this.triggers.counted = this.triggers.time;
         this.triggers.isStarted = false;
     };
     //continue
@@ -198,23 +198,32 @@ var Timer = (function () {
         var f = this;
         if (this.triggers.isStarted)
             return;
+        this.triggers.startpoint = Date.now();
         this.intervalId = setInterval(function () {
-            f.triggers.time++;
-        }, 10);
+            f.subscribeEvents.call(f.ms());
+        }, 13);
         this.triggers.isStarted = true;
     };
     //show counted time
+    Timer.prototype.ms = function () {
+        this.triggers.time = Date.now() - this.triggers.startpoint + this.triggers.counted;
+        return this.triggers.time;
+    };
     Timer.prototype.s = function () {
-        return this.triggers.time / 100;
+        return round(this.ms() / 1000, 3);
     };
     //show counted time + left time since last checkpoint 
     Timer.prototype.i = function () {
         var v = {};
         v.sec = this.s();
-        v.delay = round(v.sec - this.triggers.checkpoint, 4);
+        v.delay = round(v.sec - this.triggers.checkpoint, 3); //v.delay uses new $time
         this.triggers.checkpoint = v.sec; //after v.delay, couse v.delay uses last $checkpoint
-        v.replay = v.sec + "sec (+" + v.delay + ")";
+        v.replay = v.sec + " (+" + v.delay + ") sec";
         return v.replay;
+    };
+    //subscribe to timer
+    Timer.prototype.subscribe = function (e) {
+        this.subscribeEvents.push(e);
     };
     return Timer;
 }());

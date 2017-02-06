@@ -50,8 +50,21 @@ timer.start();
 
 // ...
 
-console.log(timer.i());
+console.log(timer.ms()); //counted time in milliseconds
+console.log(timer.s()); //counted time in seconds
+console.log(timer.i()); //counted time in seconds + left time since last checkpoint 
 timer.pause();
+```
+You can also subscribe to time counting
+```javascript
+var timer = new Timer();
+timer.start();
+timer.subscribe(ms => {
+  console.log(ms);
+  console.log(timer.i());
+});
+
+setTimeout(() => { timer.pause(); }, 1000);
 ```
 
 ### is()

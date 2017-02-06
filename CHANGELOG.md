@@ -1,3 +1,8 @@
+## v1.0.14
+6 feb 2017
+
+* Timer is updated. Bugs are fixed. There was added new method subscribe. Check README for documentation.
+
 ## v1.0.13
 20 jan 2017
 
