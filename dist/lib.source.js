@@ -171,6 +171,7 @@ var Timer = (function () {
         this.pause();
         this.triggers.counted = 0;
         this.triggers.checkpoint = 0;
+        this.triggers.pausevalue = 0;
         this.subscribeEvents = new Events();
         this.go();
     };
@@ -178,6 +179,7 @@ var Timer = (function () {
     Timer.prototype.pause = function () {
         if (!this.triggers.isStarted)
             return;
+        this.triggers.pausevalue = this.ms();
         clearInterval(this.intervalId);
         this.triggers.counted = this.triggers.time;
         this.triggers.isStarted = false;
@@ -195,6 +197,8 @@ var Timer = (function () {
     };
     //show counted time
     Timer.prototype.ms = function () {
+        if (!this.triggers.isStarted)
+            return this.triggers.pausevalue;
         this.triggers.time = Date.now() - this.triggers.startpoint + this.triggers.counted;
         return this.triggers.time;
     };

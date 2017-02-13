@@ -1,3 +1,9 @@
+## v1.0.15
+14 feb 2017
+
+* Timer intervalID bug fix.
+* Timer pause bug fix
+
 ## v1.0.14
 6 feb 2017
 

@@ -175,6 +175,7 @@ class Timer {
 
     this.triggers.counted = 0;
     this.triggers.checkpoint = 0;
+    this.triggers.pausevalue = 0;
     this.subscribeEvents = new Events();
 
     this.go();
@@ -184,6 +185,7 @@ class Timer {
   pause() {
     if (!this.triggers.isStarted) return;
     
+    this.triggers.pausevalue = this.ms();
     clearInterval(this.intervalId);
     this.triggers.counted = this.triggers.time;
     
@@ -205,6 +207,7 @@ class Timer {
 
   //show counted time
   ms() {
+    if (!this.triggers.isStarted) return this.triggers.pausevalue;
     this.triggers.time = Date.now() - this.triggers.startpoint + this.triggers.counted;
     return this.triggers.time;
   }
