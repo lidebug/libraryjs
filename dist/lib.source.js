@@ -127,6 +127,13 @@ function or(list) {
     }
     return null;
 }
+//Check type
+function isFunction(functionToCheck) {
+    return functionToCheck && Object.prototype.toString.call(functionToCheck) === "[object Function]";
+}
+function isArray(arrayToCheck) {
+    return Object.prototype.toString.call(arrayToCheck) === "[object Array]";
+}
 //More simple random function
 function rand(a, b) {
     var c;
@@ -158,6 +165,14 @@ function round(n, e) {
     var p;
     p = Math.pow(10, e);
     return Math.round(n * p) / p;
+}
+//Array shuffle
+function shuffle(a) {
+    for (var i = a.length; i; i--) {
+        var j = Math.floor(Math.random() * i);
+        _a = [a[j], a[i - 1]], a[i - 1] = _a[0], a[j] = _a[1];
+    }
+    var _a;
 }
 //It's just a timer...
 var Timer = (function () {

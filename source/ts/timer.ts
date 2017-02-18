@@ -1,7 +1,7 @@
 //It's just a timer...
 class Timer {
   triggers:any = {};
-  intervalId:number;
+  intervalId:any;
   subscribeEvents:Events;
   constructor() {
     this.triggers.isStarted = false;

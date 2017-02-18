@@ -1,7 +1,7 @@
 {
   "name": "libraryjs",
   "description": "Set of javascript classes & functions, which can be used in work process",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "scripts": {
     "start": "npm run gulp",
     "gulp": "gulp"

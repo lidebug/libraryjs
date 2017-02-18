@@ -1,3 +1,10 @@
+## v1.0.16
+18 feb 2017
+
+* Timer intervalID bug fix again...
+* isFunction, isArray added
+* Array shuffle added
+
 ## v1.0.15
 14 feb 2017
 

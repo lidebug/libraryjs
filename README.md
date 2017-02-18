@@ -80,6 +80,12 @@ is({}); //true
 is("hello"); //true
 ```
 
+Check types
+```javascript
+isFunction(function() {}); //true
+isArray([ 1, 2, 3 ]); //true
+```
+
 ### not()
 Not exist?
 ```javascript
@@ -149,4 +155,12 @@ It prints random string
 var str = randtext(3); // str = fyw
 var str = randtext(3); // str = hoi
 var str = randtext(3); // str = qqj
+```
+
+### shuffle()
+It makes a array randomized
+```javascript
+var array = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ];
+shuffle(array);
+console.log(array); // [ 8, 3, 4, 2, 1, 5, 9, 6, 7 ]
 ```

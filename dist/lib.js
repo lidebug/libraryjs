@@ -135,6 +135,15 @@ function or(list) {
     return null;
 }
 exports.or = or;
+//Check type
+function isFunction(functionToCheck) {
+    return functionToCheck && Object.prototype.toString.call(functionToCheck) === "[object Function]";
+}
+exports.isFunction = isFunction;
+function isArray(arrayToCheck) {
+    return Object.prototype.toString.call(arrayToCheck) === "[object Array]";
+}
+exports.isArray = isArray;
 //More simple random function
 function rand(a, b) {
     var c;
@@ -170,6 +179,15 @@ function round(n, e) {
     return Math.round(n * p) / p;
 }
 exports.round = round;
+//Array shuffle
+function shuffle(a) {
+    for (var i = a.length; i; i--) {
+        var j = Math.floor(Math.random() * i);
+        _a = [a[j], a[i - 1]], a[i - 1] = _a[0], a[j] = _a[1];
+    }
+    var _a;
+}
+exports.shuffle = shuffle;
 //It's just a timer...
 var Timer = (function () {
     function Timer() {

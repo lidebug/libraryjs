@@ -125,6 +125,15 @@ function or(list:Array<any>) {
   }
   return null;
 }
+
+//Check type
+function isFunction( functionToCheck ) {
+  return functionToCheck && Object.prototype.toString.call( functionToCheck ) === "[object Function]";
+}
+
+function isArray( arrayToCheck ) {
+  return Object.prototype.toString.call( arrayToCheck ) === "[object Array]";
+}
 //More simple random function
 function rand(a:number, b:number):number {  
   var c:number;
@@ -159,10 +168,17 @@ function round(n:number, e:number):number {
   p = Math.pow(10,e);
   return Math.round(n*p)/p;
 }
+//Array shuffle
+function shuffle(a) {
+  for (let i = a.length; i; i--) {
+    let j = Math.floor(Math.random() * i);
+    [a[i - 1], a[j]] = [a[j], a[i - 1]];
+  }
+}
 //It's just a timer...
 class Timer {
   triggers:any = {};
-  intervalId:number;
+  intervalId:any;
   subscribeEvents:Events;
   constructor() {
     this.triggers.isStarted = false;

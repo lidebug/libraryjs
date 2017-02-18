@@ -16,3 +16,12 @@ function or(list:Array<any>) {
   }
   return null;
 }
+
+//Check type
+function isFunction( functionToCheck ) {
+  return functionToCheck && Object.prototype.toString.call( functionToCheck ) === "[object Function]";
+}
+
+function isArray( arrayToCheck ) {
+  return Object.prototype.toString.call( arrayToCheck ) === "[object Array]";
+}
