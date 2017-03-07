@@ -13,9 +13,9 @@ class Events {
     return this.events.push(event);
   }
 
-  del(name:string) {
+  remove(name:string) {
     if (not(name)) return;
-    this.events.del(name);
+    this.events.remove(name);
   }
 
   call(param?:any) {

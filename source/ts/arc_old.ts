@@ -1,5 +1,5 @@
 //Superior array
-class Arc<T> {
+class ArcOld<T> {
   array:any;
   length:number;
   id:number;
@@ -25,7 +25,7 @@ class Arc<T> {
     return this.array[name];
   }
 
-  remove(name:string) {
+  del(name:string) {
     if (is(this.array[name])) this.length--;
     this.array[name] = null;
     delete this.array[name];
@@ -37,12 +37,6 @@ class Arc<T> {
       valueLocal = this.value(i);
       if (valueLocal == value) return i;
     };
-  }
-
-  forEach(callback:Function) {
-    for(let name in this.array) {
-      callback(name, this.array[name]);
-    }
   }
 
   toString() {

@@ -1,1 +1,12 @@
-["Arc", "Timer", "Events", "Async", "is", "not", "or", "isFunction", "isArray", "check", "rand", "randtext", "round", "shuffle"]
+[
+  "Arc",
+  "Timer",
+  "Events",
+  "Async",
+  "is", "not", "or",
+  "isObject", "isNumber", "isString", "isArray", "isFunction",
+  "check",
+  "rand", "randtext", "round", "shuffle",
+  "Loading",
+  "Interval", "Timeout"
+]

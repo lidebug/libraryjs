@@ -36,10 +36,27 @@ Superior Promise
 var msg = new Async();
 
 setTimeout(function() {
-  msg.set("Haha!");
-}, 3000);
+  msg.set("Good news!");
+}, 2000);
 
 msg.then(function(res) { console.log(res) });
+
+setTimeout(function() {
+  msg.set("Hello!");
+}, 1000);
+```
+When you need use it just once
+```javascript
+var msg = new Async({ disposable: true }); //disposable default is false
+
+msg.then(function(res) { console.log(res) });
+
+setTimeout(function() {
+  msg.set("It work!");
+}, 100);
+setTimeout(function() {
+  msg.set("useless..."); //The code will not be run
+}, 200);
 ```
 
 ### Timer
@@ -67,12 +84,58 @@ timer.subscribe(ms => {
 setTimeout(() => { timer.pause(); }, 1000);
 ```
 
+### Loading
+When you have to wait a lot of callbacks
+```javascript
+var loading = new Loading(() => {
+  //when all loading.done() will be done, this code run.
+  //( the code runs only after loading.start() )
+  console.log("everything is done!");
+});
+
+loading.add(); // +1 waiting
+setTimeout(function() {
+
+  // ...
+  
+  loading.done(); // the waiting is done
+}, 1000);
+//( amount of loading.add() equel amount of loading.done() )
+
+loading.add();
+setTimeout(function() {
+  // ...
+  loading.done();
+}, 2000);
+
+loading.add();
+setTimeout(function() {
+  // ...
+  loading.done();
+}, 3000);
+
+loading.start(); //after all loading.add() we can use loading.start()
+```
+
+### Interval and Timeout
+Default setInterval has problems when it works with some frameworks. (example: angular2)
+So it's superior setInterval and setTimeout
+```javascript
+var interval = new Interval(100, () => {
+  console.log("delay 100");
+});
+
+var timeout = new Timeout(1000, () => {
+  interval.stop();
+});
+```
+
 ### is()
 Is object exist?
 ```javascript
 is(null); //false
 is(undefined); //false
-is(NaN); //true
+is(NaN); //false
 is(0); //true
 is(""); //true
 is([]); //true
@@ -84,6 +147,9 @@ Check types
 ```javascript
 isFunction(function() {}); //true
 isArray([ 1, 2, 3 ]); //true
+isObject({ age: 99 }); //true
+isNumber(122); //true
+isString("deal with it"); //true
 ```
 
 ### not()
@@ -95,7 +161,7 @@ not(undefined); //true
 ### or()
 It chooses first existing object
 ```javascript
-var c = or([null, null, undefined, 72, 12, null, "hi"]); //c = 72
+var c = or(null, null, undefined, 72, 12, null, "hi"); //c = 72
 ```
 
 ### check()

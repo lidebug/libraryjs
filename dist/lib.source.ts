@@ -25,6 +25,61 @@ class Arc<T> {
     return this.array[name];
   }
 
+  remove(name:string) {
+    if (is(this.array[name])) this.length--;
+    this.array[name] = null;
+    delete this.array[name];
+  }
+
+  search(value:T) {
+    var valueLocal:T;
+    for(let i in this.array) {
+      valueLocal = this.value(i);
+      if (valueLocal == value) return i;
+    };
+  }
+
+  forEach(callback:Function) {
+    for(let name in this.array) {
+      callback(name, this.array[name]);
+    }
+  }
+
+  toString() {
+    var trace:string = "";
+    for(let i in this.array) {
+      trace += "["+i+"] " + this.value(i) + "\n";
+    };
+    return trace;
+  }
+}
+//Superior array
+class ArcOld<T> {
+  array:any;
+  length:number;
+  id:number;
+  constructor() {
+    this.array = {};
+    this.length = 0;
+    this.id = 0;
+  }
+
+  add(name:string, value:T) {
+    if (not(this.array[name])) this.length++;
+    this.array[name] = value;
+  }
+
+  push(value:T) {
+    var id:string = "arcUnicId" + this.id;
+    this.id++;
+    this.add(id, value);
+    return id;
+  }
+
+  value(name:string) {
+    return this.array[name];
+  }
+
   del(name:string) {
     if (is(this.array[name])) this.length--;
     this.array[name] = null;
@@ -51,16 +106,18 @@ class Arc<T> {
 class Async<T> {
   value:T;
   onload:Events;
-  constructor() {
+  constructor(private param:any = {}) {
+    if (not(this.param.disposable)) this.param.disposable = false;
     this.onload = new Events();
   }
   then(res:Function) {
-    this.onload.push(res);
-    if (is(this.value)) res(this.value);
+    if (!this.param.disposable) this.onload.push(res);
+    if (is(this.value) && this.param.disposable) res(this.value);
   }
   set(value:T) {
     this.value = value;
     this.onload.call(value);
+    if (this.param.disposable) this.onload = new Events();
   }
 }
 //Easy way to check that any parameters aren't set.
@@ -94,9 +151,9 @@ class Events {
     return this.events.push(event);
   }
 
-  del(name:string) {
+  remove(name:string) {
     if (not(name)) return;
-    this.events.del(name);
+    this.events.remove(name);
   }
 
   call(param?:any) {
@@ -110,6 +167,7 @@ class Events {
 //Is object exist?
 function is(obj:any) {
   if (obj === null || obj === undefined) return false;
+  if (isNumber(obj) && isNaN(obj)) return false;
   else return true;
 }
 
@@ -119,7 +177,7 @@ function not(obj:any) {
 }
 
 //Choose first existing object
-function or(list:Array<any>) {
+function or(...list:Array<any>) {
   for(let value of list) {
     if (is(value)) return value;
   }
@@ -127,12 +185,52 @@ function or(list:Array<any>) {
 }
 
 //Check type
-function isFunction( functionToCheck ) {
-  return functionToCheck && Object.prototype.toString.call( functionToCheck ) === "[object Function]";
+function isObject( objectToCheck ) {
+  return Object.prototype.toString.call( objectToCheck ) === "[object Object]";
 }
-
+function isNumber( numberToCheck ) {
+  return Object.prototype.toString.call( numberToCheck ) === "[object Number]";
+}
+function isString( stringToCheck ) {
+  return Object.prototype.toString.call( stringToCheck ) === "[object String]";
+}
 function isArray( arrayToCheck ) {
   return Object.prototype.toString.call( arrayToCheck ) === "[object Array]";
+}
+function isFunction( functionToCheck ) {
+  return Object.prototype.toString.call( functionToCheck ) === "[object Function]";
+}
+//When you have to wait a lot of callbacks
+class Loading {
+  param:any = {};
+  vars:any = {};
+  constructor(callback) {
+    var f = this;
+    f.param.callback = callback;
+
+    f.vars.loadings = 0;
+    f.vars.loaded = 0;
+    f.vars.isStarted = false;
+  }
+  load() {
+    var f = this;
+    f.vars.loadings++;
+  }
+  done() {
+    var f = this;
+    f.vars.loaded++;
+    f.check();
+  }
+  start() {
+    var f = this;
+    f.vars.isStarted = true;
+    f.check();
+  }
+  check() {
+    var f = this;
+    if (!f.vars.isStarted) return;
+    if (f.vars.loaded >= f.vars.loadings) f.param.callback();
+  }
 }
 //More simple random function
 function rand(a:number, b:number):number {  
@@ -146,6 +244,7 @@ function rand(a:number, b:number):number {
   d += a;
   return d;
 }
+
 //Print random string
 function randtext(len:number):string {
   var trace:string = "";
@@ -173,6 +272,74 @@ function shuffle(a) {
   for (let i = a.length; i; i--) {
     let j = Math.floor(Math.random() * i);
     [a[i - 1], a[j]] = [a[j], a[i - 1]];
+  }
+}
+//Superior setInterval and setTimeout
+class Interval {
+  protected param:any = {};
+  protected vars:any = {};
+  stoped:boolean = true;
+  constructor (duration?:number, callback?:Function) {
+    var f = this;
+    f.create(duration, callback);
+  }
+  create(duratiom?:number, callback?:Function) {
+    var f = this;
+    f.set({
+      duration: duratiom,
+      callback: callback
+    });
+    f.start();
+  }
+  protected interval() {
+    var f = this;
+    if (f.stoped) return;
+    f.vars.timeoutID = setTimeout(() => {
+      if (f.stoped) return;
+      f.param.callback();
+      if (f.stoped) return;
+      f.interval();
+    }, f.param.duration);
+  }
+  set(param) {
+    var f = this;
+    if (is(param.duration)) f.param.duration = param.duration;
+    if (is(param.callback)) f.param.callback = param.callback;
+    if (is(param.after)) f.param.aftercallback = param.aftercallback;
+  }
+  call() {
+    var f = this;
+    if (f.stoped) return;
+    f.param.callback();
+    return f;
+  }
+  start() {
+    var f = this;
+    if (not(f.param.duration) || not(f.param.duration)) return;
+    f.stoped = false;
+    f.interval();
+  }
+  after(aftercallback:Function) {
+    var f = this;
+    f.set({ after: aftercallback });
+  }
+  stop() {
+    var f = this;
+    if (f.stoped) return;
+    clearTimeout(f.vars.timeoutID);
+    f.stoped = true;
+    if (is(f.param.aftercallback)) f.param.aftercallback();
+  }
+  remove() { this.stop(); }
+}
+class Timeout extends Interval {
+  protected interval() {
+    var f = this;
+    if (f.stoped) return;
+    f.vars.timeoutID = setTimeout(() => {
+      if (f.stoped) return;
+      f.param.callback();
+    }, f.param.duration);
   }
 }
 //It's just a timer...

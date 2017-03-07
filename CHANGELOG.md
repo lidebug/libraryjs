@@ -1,3 +1,17 @@
+## c2.17.0b
+#### v1.1.0
+7 mar 2017
+
+* BIG UPDATE!
+* Loading is added
+* Interval and Timeout is added
+* or() now is running without [] arguments
+* Async now can be disposable
+* isObject, isString, isNumber added
+* is(NaN) is finally equal false
+* commits have new style now: cA.B.C[D]; c - commit, A - amount of BIG commits, B - amount of all commits, C - amount of bugfix commit since last common commit, D - extra optional attribute like "b" (means beta)
+* Beta testing of updates
+
 ## v1.0.16
 18 feb 2017
 

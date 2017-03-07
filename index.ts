@@ -1,1 +1,1 @@
-export { Arc, Timer, Events, Async, is, not, or, isFunction, isArray, check, rand, randtext, round, shuffle } from './dist/lib';
+export { Arc, Timer, Events, Async, is, not, or, isObject, isNumber, isString, isArray, isFunction, check, rand, randtext, round, shuffle, Loading, Interval, Timeout } from './dist/lib';

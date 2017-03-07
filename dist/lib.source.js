@@ -1,3 +1,13 @@
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 //Superior array
 var Arc = (function () {
     function Arc() {
@@ -19,7 +29,7 @@ var Arc = (function () {
     Arc.prototype.value = function (name) {
         return this.array[name];
     };
-    Arc.prototype.del = function (name) {
+    Arc.prototype.remove = function (name) {
         if (is(this.array[name]))
             this.length--;
         this.array[name] = null;
@@ -34,6 +44,11 @@ var Arc = (function () {
         }
         ;
     };
+    Arc.prototype.forEach = function (callback) {
+        for (var name_1 in this.array) {
+            callback(name_1, this.array[name_1]);
+        }
+    };
     Arc.prototype.toString = function () {
         var trace = "";
         for (var i in this.array) {
@@ -44,19 +59,72 @@ var Arc = (function () {
     };
     return Arc;
 }());
+//Superior array
+var ArcOld = (function () {
+    function ArcOld() {
+        this.array = {};
+        this.length = 0;
+        this.id = 0;
+    }
+    ArcOld.prototype.add = function (name, value) {
+        if (not(this.array[name]))
+            this.length++;
+        this.array[name] = value;
+    };
+    ArcOld.prototype.push = function (value) {
+        var id = "arcUnicId" + this.id;
+        this.id++;
+        this.add(id, value);
+        return id;
+    };
+    ArcOld.prototype.value = function (name) {
+        return this.array[name];
+    };
+    ArcOld.prototype.del = function (name) {
+        if (is(this.array[name]))
+            this.length--;
+        this.array[name] = null;
+        delete this.array[name];
+    };
+    ArcOld.prototype.search = function (value) {
+        var valueLocal;
+        for (var i in this.array) {
+            valueLocal = this.value(i);
+            if (valueLocal == value)
+                return i;
+        }
+        ;
+    };
+    ArcOld.prototype.toString = function () {
+        var trace = "";
+        for (var i in this.array) {
+            trace += "[" + i + "] " + this.value(i) + "\n";
+        }
+        ;
+        return trace;
+    };
+    return ArcOld;
+}());
 //Superior Promise
 var Async = (function () {
-    function Async() {
+    function Async(param) {
+        if (param === void 0) { param = {}; }
+        this.param = param;
+        if (not(this.param.disposable))
+            this.param.disposable = false;
         this.onload = new Events();
     }
     Async.prototype.then = function (res) {
-        this.onload.push(res);
-        if (is(this.value))
+        if (!this.param.disposable)
+            this.onload.push(res);
+        if (is(this.value) && this.param.disposable)
             res(this.value);
     };
     Async.prototype.set = function (value) {
         this.value = value;
         this.onload.call(value);
+        if (this.param.disposable)
+            this.onload = new Events();
     };
     return Async;
 }());
@@ -94,10 +162,10 @@ var Events = (function () {
     Events.prototype.push = function (event) {
         return this.events.push(event);
     };
-    Events.prototype.del = function (name) {
+    Events.prototype.remove = function (name) {
         if (not(name))
             return;
-        this.events.del(name);
+        this.events.remove(name);
     };
     Events.prototype.call = function (param) {
         var k;
@@ -111,6 +179,8 @@ var Events = (function () {
 function is(obj) {
     if (obj === null || obj === undefined)
         return false;
+    if (isNumber(obj) && isNaN(obj))
+        return false;
     else
         return true;
 }
@@ -119,21 +189,68 @@ function not(obj) {
     return !is(obj);
 }
 //Choose first existing object
-function or(list) {
-    for (var _i = 0, list_2 = list; _i < list_2.length; _i++) {
-        var value = list_2[_i];
+function or() {
+    var list = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        list[_i] = arguments[_i];
+    }
+    for (var _a = 0, list_2 = list; _a < list_2.length; _a++) {
+        var value = list_2[_a];
         if (is(value))
             return value;
     }
     return null;
 }
 //Check type
-function isFunction(functionToCheck) {
-    return functionToCheck && Object.prototype.toString.call(functionToCheck) === "[object Function]";
+function isObject(objectToCheck) {
+    return Object.prototype.toString.call(objectToCheck) === "[object Object]";
+}
+function isNumber(numberToCheck) {
+    return Object.prototype.toString.call(numberToCheck) === "[object Number]";
+}
+function isString(stringToCheck) {
+    return Object.prototype.toString.call(stringToCheck) === "[object String]";
 }
 function isArray(arrayToCheck) {
     return Object.prototype.toString.call(arrayToCheck) === "[object Array]";
 }
+function isFunction(functionToCheck) {
+    return Object.prototype.toString.call(functionToCheck) === "[object Function]";
+}
+//When you have to wait a lot of callbacks
+var Loading = (function () {
+    function Loading(callback) {
+        this.param = {};
+        this.vars = {};
+        var f = this;
+        f.param.callback = callback;
+        f.vars.loadings = 0;
+        f.vars.loaded = 0;
+        f.vars.isStarted = false;
+    }
+    Loading.prototype.load = function () {
+        var f = this;
+        f.vars.loadings++;
+    };
+    Loading.prototype.done = function () {
+        var f = this;
+        f.vars.loaded++;
+        f.check();
+    };
+    Loading.prototype.start = function () {
+        var f = this;
+        f.vars.isStarted = true;
+        f.check();
+    };
+    Loading.prototype.check = function () {
+        var f = this;
+        if (!f.vars.isStarted)
+            return;
+        if (f.vars.loaded >= f.vars.loadings)
+            f.param.callback();
+    };
+    return Loading;
+}());
 //More simple random function
 function rand(a, b) {
     var c;
@@ -174,6 +291,92 @@ function shuffle(a) {
     }
     var _a;
 }
+//Superior setInterval and setTimeout
+var Interval = (function () {
+    function Interval(duration, callback) {
+        this.param = {};
+        this.vars = {};
+        this.stoped = true;
+        var f = this;
+        f.create(duration, callback);
+    }
+    Interval.prototype.create = function (duratiom, callback) {
+        var f = this;
+        f.set({
+            duration: duratiom,
+            callback: callback
+        });
+        f.start();
+    };
+    Interval.prototype.interval = function () {
+        var f = this;
+        if (f.stoped)
+            return;
+        f.vars.timeoutID = setTimeout(function () {
+            if (f.stoped)
+                return;
+            f.param.callback();
+            if (f.stoped)
+                return;
+            f.interval();
+        }, f.param.duration);
+    };
+    Interval.prototype.set = function (param) {
+        var f = this;
+        if (is(param.duration))
+            f.param.duration = param.duration;
+        if (is(param.callback))
+            f.param.callback = param.callback;
+        if (is(param.after))
+            f.param.aftercallback = param.aftercallback;
+    };
+    Interval.prototype.call = function () {
+        var f = this;
+        if (f.stoped)
+            return;
+        f.param.callback();
+        return f;
+    };
+    Interval.prototype.start = function () {
+        var f = this;
+        if (not(f.param.duration) || not(f.param.duration))
+            return;
+        f.stoped = false;
+        f.interval();
+    };
+    Interval.prototype.after = function (aftercallback) {
+        var f = this;
+        f.set({ after: aftercallback });
+    };
+    Interval.prototype.stop = function () {
+        var f = this;
+        if (f.stoped)
+            return;
+        clearTimeout(f.vars.timeoutID);
+        f.stoped = true;
+        if (is(f.param.aftercallback))
+            f.param.aftercallback();
+    };
+    Interval.prototype.remove = function () { this.stop(); };
+    return Interval;
+}());
+var Timeout = (function (_super) {
+    __extends(Timeout, _super);
+    function Timeout() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Timeout.prototype.interval = function () {
+        var f = this;
+        if (f.stoped)
+            return;
+        f.vars.timeoutID = setTimeout(function () {
+            if (f.stoped)
+                return;
+            f.param.callback();
+        }, f.param.duration);
+    };
+    return Timeout;
+}(Interval));
 //It's just a timer...
 var Timer = (function () {
     function Timer() {
