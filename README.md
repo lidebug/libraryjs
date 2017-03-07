@@ -12,8 +12,8 @@ list.add("garfield", "cat");
 list.push("fish");
 console.log(list.toString());
 
-list.del(dogid);
-list.del("garfield");
+list.remove(dogid);
+list.remove("garfield");
 console.log(list.toString());
 ```
 
@@ -118,11 +118,11 @@ loading.start(); //after all loading.add() we can use loading.start()
 ```
 
 ### Interval and Timeout
-Default setInterval has problems when it works with some frameworks. (example: angular2)
+Default setInterval has problems when it works with some frameworks. (example: angular2).
 So it's superior setInterval and setTimeout
 ```javascript
 var interval = new Interval(100, () => {
-  console.log("delay 100");
+  console.log("removeay 100");
 });
 
 var timeout = new Timeout(1000, () => {
@@ -166,8 +166,27 @@ var c = or(null, null, undefined, 72, 12, null, "hi"); //c = 72
 
 ### check()
 Easy way to check that any parameters aren't set.
+Example:
 ```javascript
-function somefunction(person, name, product, itsNotNecessary) {
+function somefunction(id, attr) {
+  if (!check([
+    [id]
+    [attr, "color"],
+    [attr, "background"]
+  ])) {
+    console.log("Oh oh! You forgot something!"); //attr.color is missed
+    return;
+  }
+  
+  // ...
+}
+
+somefunction("mydiv", { background: "green" });
+```
+
+And more complicated example:
+```javascript
+function somefunction(person, name, product) {
   if (!check([
     [person, "age"],
     [name],
@@ -178,7 +197,6 @@ function somefunction(person, name, product, itsNotNecessary) {
     console.log("Error. Some parameters aren't set.");
     return;
   }
-  //"itsNotNecessary" is optional variable
   console.log("Oh right!");
 }
 

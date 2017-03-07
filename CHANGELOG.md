@@ -1,3 +1,7 @@
+## c2.17.1b
+
+* Documentation fixs
+
 ## c2.17.0b
 #### v1.1.0
 7 mar 2017
