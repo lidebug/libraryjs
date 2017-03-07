@@ -122,7 +122,7 @@ Default setInterval has problems when it works with some frameworks. (example: a
 So it's superior setInterval and setTimeout
 ```javascript
 var interval = new Interval(100, () => {
-  console.log("removeay 100");
+  console.log("delay 100");
 });
 
 var timeout = new Timeout(1000, () => {
@@ -170,7 +170,7 @@ Example:
 ```javascript
 function somefunction(id, attr) {
   if (!check([
-    [id]
+    [id],
     [attr, "color"],
     [attr, "background"]
   ])) {
