@@ -1,4 +1,9 @@
-## c2.17.3b
+## c2.18.0b
+8 mar 2017
+
+* Fixed bug with loading.add();
+
+## c2.17.4b
 7 mar 2017
 
 * Documentation fixs

@@ -212,7 +212,7 @@ class Loading {
     f.vars.loaded = 0;
     f.vars.isStarted = false;
   }
-  load() {
+  add() {
     var f = this;
     f.vars.loadings++;
   }

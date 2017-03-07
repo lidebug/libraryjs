@@ -228,7 +228,7 @@ var Loading = (function () {
         f.vars.loaded = 0;
         f.vars.isStarted = false;
     }
-    Loading.prototype.load = function () {
+    Loading.prototype.add = function () {
         var f = this;
         f.vars.loadings++;
     };
