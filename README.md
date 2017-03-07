@@ -238,7 +238,7 @@ It prints random string
 ```javascript
 var str = randtext(3); // str = fyw
 var str = randtext(3); // str = hoi
-var str = randtext(3); // str = qqj
+var str = randtext(5); // str = qqjco
 ```
 
 ### shuffle()
