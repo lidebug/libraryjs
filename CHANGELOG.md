@@ -1,7 +1,8 @@
-## c2.18.0b
-8 mar 2017
+## c2.18.1b
+7 mar 2017
 
 * Fixed bug with loading.add();
+* Wrong date fixed
 
 ## c2.17.4b
 7 mar 2017
