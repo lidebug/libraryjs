@@ -1,16 +1,23 @@
-## c2.18.1b
+### c2.19.0
+10 mar 2017
+
+* Arc documentation
+* Added idcall to Events
+
+## v1.1.1
+### c2.18.1b
 7 mar 2017
 
 * Fixed bug with loading.add();
 * Wrong date fixed
 
-## c2.17.4b
+### c2.17.4b
 7 mar 2017
 
 * Documentation fixs
 
-## c2.17.0b
-#### v1.1.0
+## v1.1.0
+### c2.17.0b
 7 mar 2017
 
 * BIG UPDATE!

@@ -16,6 +16,19 @@ list.remove(dogid);
 list.remove("garfield");
 console.log(list.toString());
 ```
+Looping
+```javascript
+var list = new Arc();
+
+list.add("string name 1", "string 1");
+list.add("string name 2", "string 2");
+list.push("string 3");
+list.push("string 4");
+
+list.forEach(( name, value ) => {
+  console.log(name + ", " + value);
+});
+```
 
 ### Events
 Easy way to call lots of functions

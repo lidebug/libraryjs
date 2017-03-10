@@ -168,9 +168,13 @@ var Events = (function () {
         this.events.remove(name);
     };
     Events.prototype.call = function (param) {
-        var k;
-        for (k in this.events.array) {
-            this.events.value(k)(param);
+        for (var id in this.events.array) {
+            this.events.value(id)(param);
+        }
+    };
+    Events.prototype.idcall = function (param) {
+        for (var id in this.events.array) {
+            this.events.value(id)(id, param);
         }
     };
     return Events;

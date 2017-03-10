@@ -19,9 +19,14 @@ class Events {
   }
 
   call(param?:any) {
-    var k;
-    for(k in this.events.array) {
-      this.events.value(k)(param);
+    for(let id in this.events.array) {
+      this.events.value(id)(param);
+    }
+  }
+
+  idcall(param?:any) {
+    for(let id in this.events.array) {
+      this.events.value(id)(id, param);
     }
   }
 }
