@@ -1,3 +1,9 @@
+## v1.1.2
+### c2.19.1
+10 mar 2017
+
+* Events documentation
+
 ### c2.19.0
 10 mar 2017
 

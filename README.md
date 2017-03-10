@@ -42,6 +42,24 @@ events.push(function() { console.log("fun 3"); });
 
 events.call();
 ```
+Call with id
+```javascript
+var events = new Events();
+
+//Example of function, which could unsubscribe itself
+var idCallCallback = (id) => {
+  console.log(id);
+  events.remove(id);
+};
+
+events.push(idCallCallback);
+events.push(idCallCallback);
+events.push(idCallCallback);
+
+// ...
+
+events.idcall();
+```
 
 ### Async
 Superior Promise
