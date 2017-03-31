@@ -118,9 +118,10 @@ var Async = (function () {
         this.onload = new Events();
     }
     Async.prototype.then = function (res) {
-        if (!this.param.disposable)
-            this.onload.push(res);
-        if (is(this.value) && this.param.disposable)
+        // if (!this.param.disposable) this.onload.push(res);
+        this.onload.push(res);
+        // if (is(this.value) && this.param.disposable) res(this.value);
+        if (is(this.value))
             res(this.value);
     };
     Async.prototype.set = function (value) {

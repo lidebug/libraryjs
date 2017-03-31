@@ -7,8 +7,8 @@ class Async<T> {
     this.onload = new Events();
   }
   then(res:Function) {
-    if (!this.param.disposable) this.onload.push(res);
-    if (is(this.value) && this.param.disposable) res(this.value);
+    this.onload.push(res);
+    if (is(this.value)) res(this.value);
   }
   set(value:T) {
     this.value = value;
