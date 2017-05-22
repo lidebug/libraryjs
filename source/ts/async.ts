@@ -1,6 +1,6 @@
 //Superior Promise
-class Async<T> {
-  value:T;
+class Async {
+  value:any;
   onload:Events;
   constructor(private param:any = {}) {
     if (not(this.param.disposable)) this.param.disposable = false;
@@ -10,7 +10,7 @@ class Async<T> {
     this.onload.push(res);
     if (is(this.value)) res(this.value);
   }
-  set(value:T) {
+  set(value:any) {
     this.value = value;
     this.onload.call(value);
     if (this.param.disposable) this.onload = new Events();

@@ -1,7 +1,7 @@
 # Library js
+### v1.2.1 ( last update: 22 may 2017 )
 
-Set of javascript classes & functions, which can be used in work process
-Plus typescript converter and concatenation.
+Set of javascript classes & functions, which can be used in work process. Plus typescript converter and concatenation.
 
 ### Arc
 Superior array
@@ -47,14 +47,14 @@ Call with id
 var events = new Events();
 
 //Example of function, which could unsubscribe itself
-var idCallCallback = (id) => {
+var callback = (id) => {
   console.log(id);
   events.remove(id);
 };
 
-events.push(idCallCallback);
-events.push(idCallCallback);
-events.push(idCallCallback);
+events.push(callback);
+events.push(callback);
+events.push(callback);
 
 // ...
 
@@ -83,7 +83,7 @@ var msg = new Async({ disposable: true }); //disposable default is false
 msg.then(function(res) { console.log(res) });
 
 setTimeout(function() {
-  msg.set("It work!");
+  msg.set("It works!");
 }, 100);
 setTimeout(function() {
   msg.set("useless..."); //The code will not be run
@@ -264,12 +264,17 @@ var r = round(3.14159265, 2); // r = 3.14
 var r = round(3.14159265, 0); // r = 3
 ```
 
-### randtext()
+### randstr() & randstr64()
 It prints random string
 ```javascript
-var str = randtext(3); // str = fyw
-var str = randtext(3); // str = hoi
-var str = randtext(5); // str = qqjco
+var str = randstr(15); // str = nn3wsq20p7azwsd
+var str = randstr64(15); // str = Ttip2sl_JCW4uo9
+```
+
+### randtext()
+It prints random text
+```javascript
+var text = randtext(5); // text = fywet
 ```
 
 ### shuffle()
@@ -278,4 +283,12 @@ It makes a array randomized
 var array = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ];
 shuffle(array);
 console.log(array); // [ 8, 3, 4, 2, 1, 5, 9, 6, 7 ]
+```
+
+### Cookie
+Functions for working with cookie
+```javascript
+setCookie("volume", 85);
+var cookie = getCookie("volume"); // cookie = 85
+delCookie("volume");
 ```

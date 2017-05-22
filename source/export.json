@@ -6,7 +6,8 @@
   "is", "not", "or",
   "isObject", "isNumber", "isString", "isArray", "isFunction",
   "check",
-  "rand", "randtext", "round", "shuffle",
+  "rand", "randtext", "randstr", "randstr64", "randcolor", "round", "shuffle",
   "Loading",
-  "Interval", "Timeout"
+  "Interval", "Timeout",
+  "getCookie", "setCookie", "delCookie"
 ]

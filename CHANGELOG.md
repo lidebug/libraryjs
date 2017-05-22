@@ -1,3 +1,11 @@
+## v1.2.1
+### c2.21
+10 may 2017
+
+* randstr(), randstr64(), randcolor()
+* Arc, Async deleted <T>
+* getCookie(), setCookie(), delCookie()
+
 ## v1.1.3
 ### c2.20
 31 mar 2017

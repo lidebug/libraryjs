@@ -1,5 +1,5 @@
 //Superior array
-class Arc<T> {
+class Arc {
   array:any;
   length:number;
   id:number;
@@ -9,12 +9,12 @@ class Arc<T> {
     this.id = 0;
   }
 
-  add(name:string, value:T) {
+  add(name:string, value:any) {
     if (not(this.array[name])) this.length++;
     this.array[name] = value;
   }
 
-  push(value:T) {
+  push(value:any) {
     var id:string = "arcUnicId" + this.id;
     this.id++;
     this.add(id, value);
@@ -31,8 +31,8 @@ class Arc<T> {
     delete this.array[name];
   }
 
-  search(value:T) {
-    var valueLocal:T;
+  search(value:any) {
+    var valueLocal:any;
     for(let i in this.array) {
       valueLocal = this.value(i);
       if (valueLocal == value) return i;

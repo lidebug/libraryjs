@@ -59,52 +59,6 @@ var Arc = (function () {
     };
     return Arc;
 }());
-//Superior array
-var ArcOld = (function () {
-    function ArcOld() {
-        this.array = {};
-        this.length = 0;
-        this.id = 0;
-    }
-    ArcOld.prototype.add = function (name, value) {
-        if (not(this.array[name]))
-            this.length++;
-        this.array[name] = value;
-    };
-    ArcOld.prototype.push = function (value) {
-        var id = "arcUnicId" + this.id;
-        this.id++;
-        this.add(id, value);
-        return id;
-    };
-    ArcOld.prototype.value = function (name) {
-        return this.array[name];
-    };
-    ArcOld.prototype.del = function (name) {
-        if (is(this.array[name]))
-            this.length--;
-        this.array[name] = null;
-        delete this.array[name];
-    };
-    ArcOld.prototype.search = function (value) {
-        var valueLocal;
-        for (var i in this.array) {
-            valueLocal = this.value(i);
-            if (valueLocal == value)
-                return i;
-        }
-        ;
-    };
-    ArcOld.prototype.toString = function () {
-        var trace = "";
-        for (var i in this.array) {
-            trace += "[" + i + "] " + this.value(i) + "\n";
-        }
-        ;
-        return trace;
-    };
-    return ArcOld;
-}());
 //Superior Promise
 var Async = (function () {
     function Async(param) {
@@ -115,9 +69,7 @@ var Async = (function () {
         this.onload = new Events();
     }
     Async.prototype.then = function (res) {
-        // if (!this.param.disposable) this.onload.push(res);
         this.onload.push(res);
-        // if (is(this.value) && this.param.disposable) res(this.value);
         if (is(this.value))
             res(this.value);
     };
@@ -151,6 +103,27 @@ function check(list) {
         }
     }
     return true;
+}
+//Functions for working with cookie
+function getCookie(name) {
+    var matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") + "=([^;]*)"));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+function createCookie(name, value, days) {
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        var expires = "; expires=" + date.toUTCString();
+    }
+    else
+        var expires = "";
+    document.cookie = name + "=" + value + expires + "; path=/";
+}
+function setCookie(name, value) {
+    createCookie(name, value, 365);
+}
+function delCookie(name) {
+    createCookie(name, "", -1);
 }
 //Easy way to call lots of functions
 var Events = (function () {
@@ -269,18 +242,70 @@ function rand(a, b) {
     return d;
 }
 //Print random string
-function randtext(len) {
+function randstr(length) {
     var trace = "";
-    for (var i = 0; i < len; i++) {
-        trace += getrandalf();
+    for (var i = 0; i < length; i++) {
+        trace += rand(0, 35).toString(36);
     }
-    ;
     return trace;
 }
-function getrandalf() {
-    var a = rand(0, 25);
-    var alf = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
-    return alf[a];
+function randcolor() {
+    var hex = "";
+    for (var i = 0; i < 6; i++) {
+        hex += rand(0, 15).toString(16);
+    }
+    return "#" + hex;
+}
+//Extra random string
+var Dict = (function () {
+    function Dict(dict) {
+        var alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+        var numerals = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+        var sumerals = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+        var dict16 = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"];
+        var extra = ["-", "_"];
+        var dict36 = alphabet.concat(sumerals);
+        var Alphabet = [];
+        for (var _i = 0, alphabet_1 = alphabet; _i < alphabet_1.length; _i++) {
+            var letter = alphabet_1[_i];
+            Alphabet.push(letter.toUpperCase());
+        }
+        var dict64 = dict36.concat(extra).concat(Alphabet);
+        if (dict === "a")
+            return alphabet;
+        else if (dict === "n")
+            return numerals;
+        else if (dict === "s")
+            return sumerals;
+        else if (dict === "16")
+            return dict16;
+        else if (dict === "36")
+            return dict36;
+        else if (dict === "64")
+            return dict64;
+        else
+            dict36;
+    }
+    return Dict;
+}());
+function randtext(length) {
+    var trace = "";
+    var dict = new Dict("a");
+    for (var i = 0; i < length; i++) {
+        trace += randomValue(dict);
+    }
+    return trace;
+}
+function randstr64(length) {
+    var trace = "";
+    var dict = new Dict("64");
+    for (var i = 0; i < length; i++) {
+        trace += randomValue(dict);
+    }
+    return trace;
+}
+function randomValue(array) {
+    return array[rand(0, array.length - 1)];
 }
 //Superior round function
 function round(n, e) {
