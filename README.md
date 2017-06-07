@@ -1,5 +1,5 @@
 # Library js
-### v1.2.1 ( last update: 22 may 2017 )
+### v2.0.0 ( last update: 7 june 2017 )
 
 Set of javascript classes & functions, which can be used in work process. Plus typescript converter and concatenation.
 
@@ -31,7 +31,7 @@ list.forEach(( name, value ) => {
 ```
 
 ### Events
-Easy way to call lots of functions
+Easy way to run lots of functions
 ```javascript
 var events = new Events();
 events.push(function() { console.log("fun 1"); });
@@ -40,9 +40,9 @@ events.push(function() { console.log("fun 3"); });
 
 // ...
 
-events.call();
+events.run();
 ```
-Call with id
+Run with id
 ```javascript
 var events = new Events();
 
@@ -58,7 +58,7 @@ events.push(callback);
 
 // ...
 
-events.idcall();
+events.run();
 ```
 
 ### Async

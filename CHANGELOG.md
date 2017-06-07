@@ -1,3 +1,10 @@
+## v2.0.0
+7 june 2017
+
+* No commit version anymore
+* Events.call() -> Events.run()
+* new source: Errors
+
 ## v1.2.1
 ### c2.21
 10 may 2017

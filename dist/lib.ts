@@ -67,7 +67,7 @@ class Async {
   }
   set(value:any) {
     this.value = value;
-    this.onload.call(value);
+    this.onload.run(value);
     if (this.param.disposable) this.onload = new Events();
   }
 }
@@ -113,6 +113,74 @@ function setCookie(name, value) {
 function delCookie(name) {
   createCookie(name,"",-1);
 }
+class Errors {
+
+  errors:Array<any> = [];
+  exists:boolean = false;
+
+  addError(message, code) {
+    var f = this;
+
+    message = message || "Unknown error";
+    code = code || 0;
+
+    f.errors.push({
+      message: message,
+      code: code
+    });
+
+    f.exists = true;
+  }
+
+  checkError(code) {
+    var f = this;
+
+    for(let error of f.errors) {
+      if (error.code === code) return true;
+    }
+
+    return false;
+  }
+
+  getErrors() {
+    var f = this;
+
+    if (!f.exists) return "";
+
+    let errors = "", i = 0;
+    for(let error of f.errors) {
+      errors += `[${i+1}] Error`;
+
+      if (error.code) 
+      errors += ` ${error.code}`;
+
+      errors += ": " + error.message;
+
+      i++; if (i === f.errors.length) break;
+      errors += "\n";
+    }
+    return errors;
+  }
+
+  exportErrors() {
+    var f = this;
+
+    return {
+      error: f.exists,
+      errors: f.errors
+    }
+  }
+
+  importErrors(pkg) {
+    var f = this;
+
+    f.exists = pkg.error;
+    if (f.exists) {
+      f.errors = pkg.errors;
+    }
+  }
+
+}
 //Easy way to call lots of functions
 class Events {
   events:Arc;
@@ -133,13 +201,13 @@ class Events {
     this.events.remove(name);
   }
 
-  call(param?:any) {
+  run(param?:any) {
     for(let id in this.events.array) {
       this.events.value(id)(param);
     }
   }
 
-  idcall(param?:any) {
+  idrun(param?:any) {
     for(let id in this.events.array) {
       this.events.value(id)(id, param);
     }
@@ -372,63 +440,74 @@ class Timer {
   intervalId:any;
   subscribeEvents:Events;
   constructor() {
-    this.triggers.isStarted = false;
-    this.start();
+    var f = this;
+
+    f.triggers.isStarted = false;
+    f.start();
   }
 
   //start, restart
   start() {
-    this.pause();
+    var f = this;
 
-    this.triggers.counted = 0;
-    this.triggers.checkpoint = 0;
-    this.triggers.pausevalue = 0;
-    this.subscribeEvents = new Events();
+    f.pause();
 
-    this.go();
+    f.triggers.counted = 0;
+    f.triggers.checkpoint = 0;
+    f.triggers.pausevalue = 0;
+    f.subscribeEvents = new Events();
+
+    f.go();
   }
 
   //pause
   pause() {
-    if (!this.triggers.isStarted) return;
+    var f = this;
+
+    if (!f.triggers.isStarted) return;
     
-    this.triggers.pausevalue = this.ms();
-    clearInterval(this.intervalId);
-    this.triggers.counted = this.triggers.time;
+    f.triggers.pausevalue = f.ms();
+    clearInterval(f.intervalId);
+    f.triggers.counted = f.triggers.time;
     
-    this.triggers.isStarted = false;
+    f.triggers.isStarted = false;
   }
 
   //continue
   go() {
     var f = this;
-    if (this.triggers.isStarted) return;
+
+    if (f.triggers.isStarted) return;
     
-    this.triggers.startpoint = Date.now();
-    this.intervalId = setInterval(function() {
-      f.subscribeEvents.call(f.ms());
+    f.triggers.startpoint = Date.now();
+    f.intervalId = setInterval(function() {
+      f.subscribeEvents.run(f.ms());
     }, 13);
     
-    this.triggers.isStarted = true;
+    f.triggers.isStarted = true;
   }
 
   //show counted time
   ms() {
-    if (!this.triggers.isStarted) return this.triggers.pausevalue;
-    this.triggers.time = Date.now() - this.triggers.startpoint + this.triggers.counted;
-    return this.triggers.time;
+    var f = this;
+
+    if (!f.triggers.isStarted) return f.triggers.pausevalue;
+    f.triggers.time = Date.now() - f.triggers.startpoint + f.triggers.counted;
+    return f.triggers.time;
   }
   s() {
-    return round(this.ms()/1000, 3);
+    var f = this;
+    return round(f.ms()/1000, 3);
   }
 
   //show counted time + left time since last checkpoint 
   i() {
+    var f = this;
     var v:any = {};
     
-    v.sec = this.s();
-    v.delay = round(v.sec - this.triggers.checkpoint, 3); //v.delay uses new $time
-    this.triggers.checkpoint = v.sec; //after v.delay, couse v.delay uses last $checkpoint
+    v.sec = f.s();
+    v.delay = round(v.sec - f.triggers.checkpoint, 3); //v.delay uses new $time
+    f.triggers.checkpoint = v.sec; //after v.delay, couse v.delay uses last $checkpoint
     
     v.replay = v.sec + " (+" + v.delay + ") sec";
     return v.replay;
@@ -436,7 +515,8 @@ class Timer {
 
   //subscribe to timer
   subscribe(e:Function) {
-    this.subscribeEvents.push(e);
+    var f = this;
+    f.subscribeEvents.push(e);
   }
 }
-export { Arc, Timer, Events, Async, is, not, or, isObject, isNumber, isString, isArray, isFunction, check, rand, randtext, randstr, randstr64, randcolor, round, shuffle, Loading, Interval, Timeout, getCookie, setCookie, delCookie };
+export { Arc, Timer, Events, Async, is, not, or, isObject, isNumber, isString, isArray, isFunction, check, rand, randtext, randstr, randstr64, randcolor, round, shuffle, Loading, Interval, Timeout, Errors, getCookie, setCookie, delCookie };

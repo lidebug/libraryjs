@@ -9,5 +9,6 @@
   "rand", "randtext", "randstr", "randstr64", "randcolor", "round", "shuffle",
   "Loading",
   "Interval", "Timeout",
+  "Errors",
   "getCookie", "setCookie", "delCookie"
 ]

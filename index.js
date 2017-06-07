@@ -24,6 +24,7 @@ exports.shuffle = lib_1.shuffle;
 exports.Loading = lib_1.Loading;
 exports.Interval = lib_1.Interval;
 exports.Timeout = lib_1.Timeout;
+exports.Errors = lib_1.Errors;
 exports.getCookie = lib_1.getCookie;
 exports.setCookie = lib_1.setCookie;
 exports.delCookie = lib_1.delCookie;

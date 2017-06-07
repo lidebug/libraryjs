@@ -12,7 +12,7 @@ class Async {
   }
   set(value:any) {
     this.value = value;
-    this.onload.call(value);
+    this.onload.run(value);
     if (this.param.disposable) this.onload = new Events();
   }
 }

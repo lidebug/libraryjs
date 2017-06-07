@@ -78,7 +78,7 @@ var Async = (function () {
     };
     Async.prototype.set = function (value) {
         this.value = value;
-        this.onload.call(value);
+        this.onload.run(value);
         if (this.param.disposable)
             this.onload = new Events();
     };
@@ -133,6 +133,65 @@ function delCookie(name) {
     createCookie(name, "", -1);
 }
 exports.delCookie = delCookie;
+var Errors = (function () {
+    function Errors() {
+        this.errors = [];
+        this.exists = false;
+    }
+    Errors.prototype.addError = function (message, code) {
+        var f = this;
+        message = message || "Unknown error";
+        code = code || 0;
+        f.errors.push({
+            message: message,
+            code: code
+        });
+        f.exists = true;
+    };
+    Errors.prototype.checkError = function (code) {
+        var f = this;
+        for (var _i = 0, _a = f.errors; _i < _a.length; _i++) {
+            var error = _a[_i];
+            if (error.code === code)
+                return true;
+        }
+        return false;
+    };
+    Errors.prototype.getErrors = function () {
+        var f = this;
+        if (!f.exists)
+            return "";
+        var errors = "", i = 0;
+        for (var _i = 0, _a = f.errors; _i < _a.length; _i++) {
+            var error = _a[_i];
+            errors += "[" + (i + 1) + "] Error";
+            if (error.code)
+                errors += " " + error.code;
+            errors += ": " + error.message;
+            i++;
+            if (i === f.errors.length)
+                break;
+            errors += "\n";
+        }
+        return errors;
+    };
+    Errors.prototype.exportErrors = function () {
+        var f = this;
+        return {
+            error: f.exists,
+            errors: f.errors
+        };
+    };
+    Errors.prototype.importErrors = function (pkg) {
+        var f = this;
+        f.exists = pkg.error;
+        if (f.exists) {
+            f.errors = pkg.errors;
+        }
+    };
+    return Errors;
+}());
+exports.Errors = Errors;
 //Easy way to call lots of functions
 var Events = (function () {
     function Events() {
@@ -149,12 +208,12 @@ var Events = (function () {
             return;
         this.events.remove(name);
     };
-    Events.prototype.call = function (param) {
+    Events.prototype.run = function (param) {
         for (var id in this.events.array) {
             this.events.value(id)(param);
         }
     };
-    Events.prototype.idcall = function (param) {
+    Events.prototype.idrun = function (param) {
         for (var id in this.events.array) {
             this.events.value(id)(id, param);
         }
@@ -438,60 +497,67 @@ exports.Timeout = Timeout;
 var Timer = (function () {
     function Timer() {
         this.triggers = {};
-        this.triggers.isStarted = false;
-        this.start();
+        var f = this;
+        f.triggers.isStarted = false;
+        f.start();
     }
     //start, restart
     Timer.prototype.start = function () {
-        this.pause();
-        this.triggers.counted = 0;
-        this.triggers.checkpoint = 0;
-        this.triggers.pausevalue = 0;
-        this.subscribeEvents = new Events();
-        this.go();
+        var f = this;
+        f.pause();
+        f.triggers.counted = 0;
+        f.triggers.checkpoint = 0;
+        f.triggers.pausevalue = 0;
+        f.subscribeEvents = new Events();
+        f.go();
     };
     //pause
     Timer.prototype.pause = function () {
-        if (!this.triggers.isStarted)
+        var f = this;
+        if (!f.triggers.isStarted)
             return;
-        this.triggers.pausevalue = this.ms();
-        clearInterval(this.intervalId);
-        this.triggers.counted = this.triggers.time;
-        this.triggers.isStarted = false;
+        f.triggers.pausevalue = f.ms();
+        clearInterval(f.intervalId);
+        f.triggers.counted = f.triggers.time;
+        f.triggers.isStarted = false;
     };
     //continue
     Timer.prototype.go = function () {
         var f = this;
-        if (this.triggers.isStarted)
+        if (f.triggers.isStarted)
             return;
-        this.triggers.startpoint = Date.now();
-        this.intervalId = setInterval(function () {
-            f.subscribeEvents.call(f.ms());
+        f.triggers.startpoint = Date.now();
+        f.intervalId = setInterval(function () {
+            f.subscribeEvents.run(f.ms());
         }, 13);
-        this.triggers.isStarted = true;
+        f.triggers.isStarted = true;
     };
     //show counted time
     Timer.prototype.ms = function () {
-        if (!this.triggers.isStarted)
-            return this.triggers.pausevalue;
-        this.triggers.time = Date.now() - this.triggers.startpoint + this.triggers.counted;
-        return this.triggers.time;
+        var f = this;
+        if (!f.triggers.isStarted)
+            return f.triggers.pausevalue;
+        f.triggers.time = Date.now() - f.triggers.startpoint + f.triggers.counted;
+        return f.triggers.time;
     };
     Timer.prototype.s = function () {
-        return round(this.ms() / 1000, 3);
+        var f = this;
+        return round(f.ms() / 1000, 3);
     };
     //show counted time + left time since last checkpoint 
     Timer.prototype.i = function () {
+        var f = this;
         var v = {};
-        v.sec = this.s();
-        v.delay = round(v.sec - this.triggers.checkpoint, 3); //v.delay uses new $time
-        this.triggers.checkpoint = v.sec; //after v.delay, couse v.delay uses last $checkpoint
+        v.sec = f.s();
+        v.delay = round(v.sec - f.triggers.checkpoint, 3); //v.delay uses new $time
+        f.triggers.checkpoint = v.sec; //after v.delay, couse v.delay uses last $checkpoint
         v.replay = v.sec + " (+" + v.delay + ") sec";
         return v.replay;
     };
     //subscribe to timer
     Timer.prototype.subscribe = function (e) {
-        this.subscribeEvents.push(e);
+        var f = this;
+        f.subscribeEvents.push(e);
     };
     return Timer;
 }());

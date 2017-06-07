@@ -18,13 +18,13 @@ class Events {
     this.events.remove(name);
   }
 
-  call(param?:any) {
+  run(param?:any) {
     for(let id in this.events.array) {
       this.events.value(id)(param);
     }
   }
 
-  idcall(param?:any) {
+  idrun(param?:any) {
     for(let id in this.events.array) {
       this.events.value(id)(id, param);
     }

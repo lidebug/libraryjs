@@ -1,1 +1,1 @@
-export { Arc, Timer, Events, Async, is, not, or, isObject, isNumber, isString, isArray, isFunction, check, rand, randtext, randstr, randstr64, randcolor, round, shuffle, Loading, Interval, Timeout, getCookie, setCookie, delCookie } from './dist/lib';
+export { Arc, Timer, Events, Async, is, not, or, isObject, isNumber, isString, isArray, isFunction, check, rand, randtext, randstr, randstr64, randcolor, round, shuffle, Loading, Interval, Timeout, Errors, getCookie, setCookie, delCookie } from './dist/lib';
