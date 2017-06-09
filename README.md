@@ -1,7 +1,7 @@
 # Library js
-### v2.0.1 ( last update: 9 june 2017 )
+### v2.0.2 ( last update: 9 june 2017 )
 
-Set of javascript classes & functions, which can be used in work process. Plus typescript converter and concatenation.
+Set of javascript classes & functions, which can be used in work process. Typescript versions included.
 
 ### Arc
 Superior array
@@ -58,7 +58,7 @@ events.push(callback);
 
 // ...
 
-events.run();
+events.idrun();
 ```
 
 ### Async
@@ -246,20 +246,16 @@ var c = or(null, null, undefined, 72, 12, null, "hi"); //c = 72
 Easy way to check that any parameters aren't set.
 Example:
 ```javascript
-function somefunction(id, attr) {
-  if (!check([
-    [id],
-    [attr, "color"],
-    [attr, "background"]
-  ])) {
-    console.log("Oh oh! You forgot something!"); //attr.color is missed
+function somefunction(attr) {
+  if (!check([ [attr, "background"] ])) {
+    throw new Error("attr.background isn't set");
     return;
   }
   
   // ...
 }
 
-somefunction("mydiv", { background: "green" });
+somefunction({ bg: "green" });
 ```
 
 And more complicated example:
