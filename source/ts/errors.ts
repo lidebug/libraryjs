@@ -1,9 +1,10 @@
+//Errors manager
 class Errors {
 
   errors:Array<any> = [];
   exists:boolean = false;
 
-  addError(message, code) {
+  addError(message?, code?) {
     var f = this;
 
     message = message || "Unknown error";
@@ -15,6 +16,8 @@ class Errors {
     });
 
     f.exists = true;
+
+    return f;
   }
 
   checkError(code) {
@@ -56,13 +59,15 @@ class Errors {
     }
   }
 
-  importErrors(pkg) {
+  importErrors(res) {
     var f = this;
 
-    f.exists = pkg.error;
+    f.exists = res.error;
     if (f.exists) {
-      f.errors = pkg.errors;
+      f.errors = res.errors;
     }
+
+    return f;
   }
 
 }

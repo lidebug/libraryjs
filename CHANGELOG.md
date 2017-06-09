@@ -1,3 +1,8 @@
+## v2.0.1
+9 june 2017
+
+* Errors documentation
+
 ## v2.0.0
 7 june 2017
 

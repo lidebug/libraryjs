@@ -133,6 +133,7 @@ function delCookie(name) {
     createCookie(name, "", -1);
 }
 exports.delCookie = delCookie;
+//Errors manager
 var Errors = (function () {
     function Errors() {
         this.errors = [];
@@ -147,6 +148,7 @@ var Errors = (function () {
             code: code
         });
         f.exists = true;
+        return f;
     };
     Errors.prototype.checkError = function (code) {
         var f = this;
@@ -182,12 +184,13 @@ var Errors = (function () {
             errors: f.errors
         };
     };
-    Errors.prototype.importErrors = function (pkg) {
+    Errors.prototype.importErrors = function (res) {
         var f = this;
-        f.exists = pkg.error;
+        f.exists = res.error;
         if (f.exists) {
-            f.errors = pkg.errors;
+            f.errors = res.errors;
         }
+        return f;
     };
     return Errors;
 }());

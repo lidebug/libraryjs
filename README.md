@@ -1,5 +1,5 @@
 # Library js
-### v2.0.0 ( last update: 7 june 2017 )
+### v2.0.1 ( last update: 9 june 2017 )
 
 Set of javascript classes & functions, which can be used in work process. Plus typescript converter and concatenation.
 
@@ -88,6 +88,53 @@ setTimeout(function() {
 setTimeout(function() {
   msg.set("useless..."); //The code will not be run
 }, 200);
+```
+
+### Errors
+Errors manager
+```javascript
+var errors = new Errors();
+
+errors.addError("Error message 1");
+errors.addError("Error message 2");
+errors.addError("Error message 3");
+
+if (errors.exists) {
+  console.log(errors.getErrors());
+}
+```
+
+With error code
+```javascript
+var errors = new Errors();
+errors.addError("There is no pizza...", "pizzaError");
+errors.addError("Error message");
+
+// ...
+
+if (errors.checkError("pizzaError")) {
+  console.log(errors.getErrors());
+}
+```
+
+When you need to post by http without methods.
+```javascript
+var errors = new Errors();
+errors.addError("Error message 1");
+errors.addError("Error message 2");
+
+send(errors);
+
+function send(errors) {
+  // Here could be real POST request
+  receive(errors.exportErrors());
+}
+function receive(res) {
+  var errors = new Errors();
+  errors.importErrors(res);
+
+  console.log(errors.getErrors());
+}
 ```
 
 ### Timer
