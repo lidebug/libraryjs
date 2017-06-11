@@ -198,27 +198,41 @@ exports.Errors = Errors;
 //Easy way to call lots of functions
 var Events = (function () {
     function Events() {
-        this.events = new Arc();
+        var f = this;
+        f.events = new Arc();
     }
-    Events.prototype.add = function (name, event) {
-        this.events.add(name, event);
+    Events.prototype.add = function (id, event) {
+        var f = this;
+        f.events.add(id, event);
     };
     Events.prototype.push = function (event) {
-        return this.events.push(event);
+        var f = this;
+        return f.events.push(event);
     };
-    Events.prototype.remove = function (name) {
-        if (not(name))
+    Events.prototype.remove = function (id) {
+        var f = this;
+        if (not(id))
             return;
-        this.events.remove(name);
+        f.events.remove(id);
+    };
+    Events.prototype.pick = function (id, param) {
+        var f = this;
+        f.events.value(id)(param);
+    };
+    Events.prototype.idpick = function (id, param) {
+        var f = this;
+        f.events.value(id)(id, param);
     };
     Events.prototype.run = function (param) {
-        for (var id in this.events.array) {
-            this.events.value(id)(param);
+        var f = this;
+        for (var id in f.events.array) {
+            f.pick(id, param);
         }
     };
     Events.prototype.idrun = function (param) {
-        for (var id in this.events.array) {
-            this.events.value(id)(id, param);
+        var f = this;
+        for (var id in f.events.array) {
+            f.idpick(id, param);
         }
     };
     return Events;

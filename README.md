@@ -1,5 +1,5 @@
 # Library js
-### v2.0.2 ( last update: 9 june 2017 )
+### v2.0.3 ( last update: 11 june 2017 )
 
 Set of javascript classes & functions, which can be used in work process. Typescript versions included.
 
@@ -34,9 +34,9 @@ list.forEach(( name, value ) => {
 Easy way to run lots of functions
 ```javascript
 var events = new Events();
-events.push(function() { console.log("fun 1"); });
-events.push(function() { console.log("fun 2"); });
-events.push(function() { console.log("fun 3"); });
+events.push(() => { console.log("fun 1"); });
+events.push(() => { console.log("fun 2"); });
+events.push(() => { console.log("fun 3"); });
 
 // ...
 
@@ -61,18 +61,28 @@ events.push(callback);
 events.idrun();
 ```
 
+Custom launch
+```javascript
+var events = new Events();
+var fun1 = events.push(() => { console.log("fun 1"); });
+var fun2 = events.push(() => { console.log("fun 2"); });
+var fun3 = events.push(() => { console.log("fun 3"); });
+
+events.pick(fun2);
+```
+
 ### Async
 Superior Promise
 ```javascript
 var msg = new Async();
 
-setTimeout(function() {
+setTimeout(() => {
   msg.set("Good news!");
 }, 2000);
 
-msg.then(function(res) { console.log(res) });
+msg.then((res) => { console.log(res) });
 
-setTimeout(function() {
+setTimeout(() => {
   msg.set("Hello!");
 }, 1000);
 ```
@@ -80,12 +90,12 @@ When you need use it just once
 ```javascript
 var msg = new Async({ disposable: true }); //disposable default is false
 
-msg.then(function(res) { console.log(res) });
+msg.then((res) => { console.log(res) });
 
-setTimeout(function() {
+setTimeout(() => {
   msg.set("It works!");
 }, 100);
-setTimeout(function() {
+setTimeout(() => {
   msg.set("useless..."); //The code will not be run
 }, 200);
 ```
@@ -166,38 +176,19 @@ setTimeout(() => { timer.pause(); }, 1000);
 When you have to wait a lot of callbacks
 ```javascript
 var loading = new Loading(() => {
-  //when all loading.done() will be done, this code run.
-  //( the code runs only after loading.start() )
   console.log("everything is done!");
 });
 
-loading.add(); // +1 waiting
-setTimeout(function() {
-
-  // ...
-  
-  loading.done(); // the waiting is done
-}, 1000);
-//( amount of loading.add() equel amount of loading.done() )
-
 loading.add();
 setTimeout(function() {
-  // ...
-  loading.done();
-}, 2000);
-
-loading.add();
-setTimeout(function() {
-  // ...
   loading.done();
 }, 3000);
 
-loading.start(); //after all loading.add() we can use loading.start()
+loading.start();
 ```
 
 ### Interval and Timeout
-Default setInterval has problems when it works with some frameworks. (example: angular2).
-So it's superior setInterval and setTimeout
+Superior setInterval and setTimeout
 ```javascript
 var interval = new Interval(100, () => {
   console.log("delay 100");
@@ -248,11 +239,11 @@ Example:
 ```javascript
 function somefunction(attr) {
   if (!check([ [attr, "background"] ])) {
-    throw new Error("attr.background isn't set");
+    console.log("Error. Some parameters aren't set.");
     return;
   }
   
-  // ...
+  console.log("Oh right!");
 }
 
 somefunction({ bg: "green" });

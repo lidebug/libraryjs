@@ -190,31 +190,47 @@ class Errors {
 class Events {
   events:Arc;
   constructor() {
-    this.events = new Arc();
+    var f = this;
+    f.events = new Arc();
   }
 
-  add(name:string, event:Function) {
-    this.events.add(name, event);
+  add(id:string, event:Function) {
+    var f = this;
+    f.events.add(id, event);
   }
 
   push(event:Function) {
-    return this.events.push(event);
+    var f = this;
+    return f.events.push(event);
   }
 
-  remove(name:string) {
-    if (not(name)) return;
-    this.events.remove(name);
+  remove(id:string) {
+    var f = this;
+    if (not(id)) return;
+    f.events.remove(id);
+  }
+
+  pick(id:string, param?:any) {
+    var f = this;
+    f.events.value(id)(param);
+  }
+
+  idpick(id:string, param?:any) {
+    var f = this;
+    f.events.value(id)(id, param);
   }
 
   run(param?:any) {
-    for(let id in this.events.array) {
-      this.events.value(id)(param);
+    var f = this;
+    for(let id in f.events.array) {
+      f.pick(id, param);
     }
   }
 
   idrun(param?:any) {
-    for(let id in this.events.array) {
-      this.events.value(id)(id, param);
+    var f = this;
+    for(let id in f.events.array) {
+      f.idpick(id, param);
     }
   }
 }

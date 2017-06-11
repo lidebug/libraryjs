@@ -1,3 +1,8 @@
+## v2.0.3
+11 june 2017
+
+* Events got new method: pick()
+
 ## v2.0.1
 9 june 2017
 
