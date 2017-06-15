@@ -1,7 +1,27 @@
 # Library js
-### v2.0.3 ( last update: 11 june 2017 )
+### v2.1.0 ( last update: 15 june 2017 )
 
 Set of javascript classes & functions, which can be used in work process. Typescript versions included.
+
+### Install
+```javascript
+npm i libraryjs --save
+```
+
+### Node.js
+```javascript
+var { Arc, Events, ... } = require("libraryjs");
+```
+
+### Typescript
+```javascript
+import { Arc, Events, ... } from "libraryjs";
+```
+
+### Browser
+```javascript
+<script src="/node_modules/libraryjs/dist/lib.source.js"></script>
+```
 
 ### Arc
 Superior array
@@ -27,6 +47,7 @@ list.push("string 4");
 
 list.forEach(( name, value ) => {
   console.log(name + ", " + value);
+  if (value === "string 3") return "break"; //break loop
 });
 ```
 
@@ -209,6 +230,7 @@ is(0); //true
 is(""); //true
 is([]); //true
 is({}); //true
+is(false); //true
 is("hello"); //true
 ```
 
@@ -225,6 +247,7 @@ isString("deal with it"); //true
 Not exist?
 ```javascript
 not(undefined); //true
+//not(var) = !is(var)
 ```
 
 ### or()

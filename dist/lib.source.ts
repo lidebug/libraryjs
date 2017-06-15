@@ -41,7 +41,8 @@ class Arc {
 
   forEach(callback:Function) {
     for(let name in this.array) {
-      callback(name, this.array[name]);
+      let breakPoint = callback(name, this.array[name]);
+      if (breakPoint === "break") break;
     }
   }
 
@@ -270,6 +271,9 @@ function isArray( arrayToCheck ) {
 }
 function isFunction( functionToCheck ) {
   return Object.prototype.toString.call( functionToCheck ) === "[object Function]";
+}
+function isBoolean( booleanToCheck ) {
+  return Object.prototype.toString.call( booleanToCheck ) === "[object Boolean]";
 }
 //When you have to wait a lot of callbacks
 class Loading {

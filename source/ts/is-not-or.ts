@@ -34,3 +34,6 @@ function isArray( arrayToCheck ) {
 function isFunction( functionToCheck ) {
   return Object.prototype.toString.call( functionToCheck ) === "[object Function]";
 }
+function isBoolean( booleanToCheck ) {
+  return Object.prototype.toString.call( booleanToCheck ) === "[object Boolean]";
+}

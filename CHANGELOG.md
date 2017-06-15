@@ -1,3 +1,9 @@
+## v2.1.0
+15 june 2017
+
+* Arc: now you can break forEach()
+* A bit more doc
+
 ## v2.0.3
 11 june 2017
 

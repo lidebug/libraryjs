@@ -13,6 +13,7 @@ exports.isNumber = lib_1.isNumber;
 exports.isString = lib_1.isString;
 exports.isArray = lib_1.isArray;
 exports.isFunction = lib_1.isFunction;
+exports.isBoolean = lib_1.isBoolean;
 exports.check = lib_1.check;
 exports.rand = lib_1.rand;
 exports.randtext = lib_1.randtext;

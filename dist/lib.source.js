@@ -46,7 +46,9 @@ var Arc = (function () {
     };
     Arc.prototype.forEach = function (callback) {
         for (var name_1 in this.array) {
-            callback(name_1, this.array[name_1]);
+            var breakPoint = callback(name_1, this.array[name_1]);
+            if (breakPoint === "break")
+                break;
         }
     };
     Arc.prototype.toString = function () {
@@ -269,6 +271,9 @@ function isArray(arrayToCheck) {
 }
 function isFunction(functionToCheck) {
     return Object.prototype.toString.call(functionToCheck) === "[object Function]";
+}
+function isBoolean(booleanToCheck) {
+    return Object.prototype.toString.call(booleanToCheck) === "[object Boolean]";
 }
 //When you have to wait a lot of callbacks
 var Loading = (function () {

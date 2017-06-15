@@ -41,7 +41,8 @@ class Arc {
 
   forEach(callback:Function) {
     for(let name in this.array) {
-      callback(name, this.array[name]);
+      let breakPoint = callback(name, this.array[name]);
+      if (breakPoint === "break") break;
     }
   }
 
@@ -270,6 +271,9 @@ function isArray( arrayToCheck ) {
 }
 function isFunction( functionToCheck ) {
   return Object.prototype.toString.call( functionToCheck ) === "[object Function]";
+}
+function isBoolean( booleanToCheck ) {
+  return Object.prototype.toString.call( booleanToCheck ) === "[object Boolean]";
 }
 //When you have to wait a lot of callbacks
 class Loading {
@@ -540,4 +544,4 @@ class Timer {
     f.subscribeEvents.push(e);
   }
 }
-export { Arc, Timer, Events, Async, is, not, or, isObject, isNumber, isString, isArray, isFunction, check, rand, randtext, randstr, randstr64, randcolor, round, shuffle, Loading, Interval, Timeout, Errors, getCookie, setCookie, delCookie };
+export { Arc, Timer, Events, Async, is, not, or, isObject, isNumber, isString, isArray, isFunction, isBoolean, check, rand, randtext, randstr, randstr64, randcolor, round, shuffle, Loading, Interval, Timeout, Errors, getCookie, setCookie, delCookie };
