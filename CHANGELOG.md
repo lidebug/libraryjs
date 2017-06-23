@@ -1,3 +1,11 @@
+## v3.0.0
+23 june 2017
+
+* Interval & Timeout: call() -> run()
+* Interval & Timeout small fix
+* Errors exportError() fix
+* tsconfig standart
+
 ## v2.1.0
 15 june 2017
 

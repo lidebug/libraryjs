@@ -31,7 +31,7 @@ class Interval {
     if (is(param.callback)) f.param.callback = param.callback;
     if (is(param.after)) f.param.aftercallback = param.aftercallback;
   }
-  call() {
+  run() {
     var f = this;
     if (f.stoped) return;
     f.param.callback();
@@ -39,7 +39,7 @@ class Interval {
   }
   start() {
     var f = this;
-    if (not(f.param.duration) || not(f.param.duration)) return;
+    if (not(f.param.duration) || not(f.param.callback)) return;
     f.stoped = false;
     f.interval();
   }

@@ -53,10 +53,12 @@ class Errors {
   exportErrors() {
     var f = this;
 
-    return {
-      error: f.exists,
-      errors: f.errors
-    }
+    var errors:any = {};
+    Object.assign(errors, { error: f.exists });
+    if (f.exists)
+    Object.assign(errors, { errors: f.errors });
+
+    return errors;
   }
 
   importErrors(res) {

@@ -9,7 +9,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 //Superior array
 var Arc = (function () {
     function Arc() {
@@ -181,10 +181,11 @@ var Errors = (function () {
     };
     Errors.prototype.exportErrors = function () {
         var f = this;
-        return {
-            error: f.exists,
-            errors: f.errors
-        };
+        var errors = {};
+        Object.assign(errors, { error: f.exists });
+        if (f.exists)
+            Object.assign(errors, { errors: f.errors });
+        return errors;
     };
     Errors.prototype.importErrors = function (res) {
         var f = this;
@@ -467,7 +468,7 @@ var Interval = (function () {
         if (is(param.after))
             f.param.aftercallback = param.aftercallback;
     };
-    Interval.prototype.call = function () {
+    Interval.prototype.run = function () {
         var f = this;
         if (f.stoped)
             return;
@@ -476,7 +477,7 @@ var Interval = (function () {
     };
     Interval.prototype.start = function () {
         var f = this;
-        if (not(f.param.duration) || not(f.param.duration))
+        if (not(f.param.duration) || not(f.param.callback))
             return;
         f.stoped = false;
         f.interval();

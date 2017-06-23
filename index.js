@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var lib_1 = require("./dist/lib");
 exports.Arc = lib_1.Arc;
 exports.Timer = lib_1.Timer;

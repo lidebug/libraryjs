@@ -1,24 +1,25 @@
 # Library js
-### v2.1.0 ( last update: 15 june 2017 )
+### v3.0.0 ( last update: 23 june 2017 )
 
 Set of javascript classes & functions, which can be used in work process. Typescript versions included.
 
 ### Install
+npm
 ```javascript
 npm i libraryjs --save
 ```
 
-### Node.js
+Node.js
 ```javascript
 var { Arc, Events, ... } = require("libraryjs");
 ```
 
-### Typescript
+Typescript
 ```javascript
 import { Arc, Events, ... } from "libraryjs";
 ```
 
-### Browser
+Browser
 ```javascript
 <script src="/node_modules/libraryjs/dist/lib.source.js"></script>
 ```
@@ -27,9 +28,9 @@ import { Arc, Events, ... } from "libraryjs";
 Superior array
 ```javascript
 var list = new Arc();
-var dogid = list.push("dog");
-list.add("garfield", "cat");
-list.push("fish");
+var dogid = list.push(  "dog"  );
+list.add( "garfield",   "cat"  );
+list.push(              "fish" );
 console.log(list.toString());
 
 list.remove(dogid);
@@ -40,10 +41,10 @@ Looping
 ```javascript
 var list = new Arc();
 
-list.add("string name 1", "string 1");
-list.add("string name 2", "string 2");
-list.push("string 3");
-list.push("string 4");
+list.add("string name 1", "string 1" );
+list.add("string name 2", "string 2" );
+list.push(                "string 3" );
+list.push(                "string 4" );
 
 list.forEach(( name, value ) => {
   console.log(name + ", " + value);
@@ -205,6 +206,11 @@ setTimeout(function() {
   loading.done();
 }, 3000);
 
+loading.add();
+setTimeout(function() {
+  loading.done();
+}, 2000);
+
 loading.start();
 ```
 
@@ -241,6 +247,7 @@ isArray([ 1, 2, 3 ]); //true
 isObject({ age: 99 }); //true
 isNumber(122); //true
 isString("deal with it"); //true
+isBoolean(false); //true
 ```
 
 ### not()
