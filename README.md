@@ -1,5 +1,5 @@
 # Library js
-### v4.0.0 ( last update: 30 jul 20177 )
+### v4.0.1 ( last update: 30 jul 2017 )
 
 Set of javascript classes & functions, which can be used in work process. Typescript versions included.
 

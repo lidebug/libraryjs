@@ -23,6 +23,7 @@ class Arc {
     }
     f.names.push(name);
     f.values.push(value);
+    f.length = f.names.length;
   }
 
   //Add new unnamed element
@@ -57,6 +58,7 @@ class Arc {
     if (i === -1) return;
     f.names.splice(i,1);
     f.values.splice(i,1);
+    f.length = f.names.length;
   }
 
   //Get name by value. Only first occurrence. 
