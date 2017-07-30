@@ -1,5 +1,5 @@
 # Library js
-### v3.0.0 ( last update: 23 june 2017 )
+### v4.0.0 ( last update: 30 jul 20177 )
 
 Set of javascript classes & functions, which can be used in work process. Typescript versions included.
 
@@ -30,14 +30,30 @@ Superior array
 var list = new Arc();
 var dogid = list.push(  "dog"  );
 list.add( "garfield",   "cat"  );
+list.add( "ara",        "bird" );
 list.push(              "fish" );
 console.log(list.toString());
 
 list.remove(dogid);
 list.remove("garfield");
+list.change("ara", "parrot");
 console.log(list.toString());
 ```
 Looping
+```javascript
+var list = new Arc();
+
+list.add("string name 1", "string 1" );
+list.add("string name 2", "string 2" );
+list.push(                "string 3" );
+list.push(                "string 4" );
+
+for(let i in list.names) {
+  console.log(list.names[i] + ", " + list.values[i]);
+  if (list.values[i] === "string 3") break;
+}
+```
+forEach
 ```javascript
 var list = new Arc();
 
@@ -50,6 +66,16 @@ list.forEach(( name, value ) => {
   console.log(name + ", " + value);
   if (value === "string 3") return "break"; //break loop
 });
+```
+search()
+```javascript
+var list = new Arc();
+
+list.add("string name 1", "string 1" );
+list.add("string name 2", "string 2" );
+list.add("string name 3", "string 3" );
+
+var name = list.search("string 2"); // name = "string name 2"
 ```
 
 ### Events

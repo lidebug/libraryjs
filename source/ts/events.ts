@@ -34,15 +34,15 @@ class Events {
 
   run(param?:any) {
     var f = this;
-    for(let id in f.events.array) {
-      f.pick(id, param);
+    for(let i in f.events.names) {
+      f.pick(f.events.names[i], param);
     }
   }
 
   idrun(param?:any) {
     var f = this;
-    for(let id in f.events.array) {
-      f.idpick(id, param);
+    for(let i in f.events.names) {
+      f.idpick(f.events.names[i], param);
     }
   }
 }

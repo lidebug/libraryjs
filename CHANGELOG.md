@@ -1,3 +1,11 @@
+## v4.0.0
+30 jul 2017
+
+* Arc Update
+* Arc uses arrays instead of objects now.
+* But arc.array was removed. Now available new methods to loop. ForEach is still available.
+* arc.search() is super fast now.
+
 ## v3.0.0
 23 june 2017
 
