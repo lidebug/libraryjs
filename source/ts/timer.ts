@@ -1,85 +1,60 @@
 //It's just a timer...
 class Timer {
-  triggers:any = {};
-  intervalId:any;
-  subscribeEvents:Events;
+  checkpoints:Array<any>;
+  isStarted:boolean;
+  last:number;
   constructor() {
-    var f = this;
-
-    f.triggers.isStarted = false;
-    f.start();
+    this.restart();
   }
-
-  //start, restart
+  restart() {
+    this.checkpoints = [];
+    this.isStarted = false;
+  }
   start() {
-    var f = this;
-
-    f.pause();
-
-    f.triggers.counted = 0;
-    f.triggers.checkpoint = 0;
-    f.triggers.pausevalue = 0;
-    f.subscribeEvents = new Events();
-
-    f.go();
+    if (this.isStarted) return;
+    this.isStarted = true;
+    this.checkpoints.push( Date.now() );
+  }
+  stop() {
+    if (!this.isStarted) return;
+    this.isStarted = false;
+    this.checkpoints.push( Date.now() );
   }
 
-  //pause
-  pause() {
-    var f = this;
-
-    if (!f.triggers.isStarted) return;
-    
-    f.triggers.pausevalue = f.ms();
-    clearInterval(f.intervalId);
-    f.triggers.counted = f.triggers.time;
-    
-    f.triggers.isStarted = false;
-  }
-
-  //continue
-  go() {
-    var f = this;
-
-    if (f.triggers.isStarted) return;
-    
-    f.triggers.startpoint = Date.now();
-    f.intervalId = setInterval(function() {
-      f.subscribeEvents.run(f.ms());
-    }, 13);
-    
-    f.triggers.isStarted = true;
-  }
-
-  //show counted time
   ms() {
-    var f = this;
-
-    if (!f.triggers.isStarted) return f.triggers.pausevalue;
-    f.triggers.time = Date.now() - f.triggers.startpoint + f.triggers.counted;
-    return f.triggers.time;
+    var now = Date.now();
+    var pauseTime = false;
+    var ms = 0;
+    for(let key in this.checkpoints) {
+      let i:number = parseInt(key);
+      if (pauseTime) {
+        ms += this.checkpoints[i] - this.checkpoints[ i-1 ];
+      }
+      pauseTime = !pauseTime;
+    }
+    if (pauseTime) {
+      ms += now - this.checkpoints[ this.checkpoints.length-1 ];
+    }
+    return ms;
   }
   s() {
-    var f = this;
-    return round(f.ms()/1000, 3);
+    var ms = this.ms();
+    return round(ms/1000, 3);
   }
-
-  //show counted time + left time since last checkpoint 
+  delay(sec) {
+    if (not(this.last)) return 0;
+    return round(sec - this.last, 3);
+  }
   i() {
-    var f = this;
-    var v:any = {};
+    var sec = this.s();
+    var delay:number, 
     
-    v.sec = f.s();
-    v.delay = round(v.sec - f.triggers.checkpoint, 3); //v.delay uses new $time
-    f.triggers.checkpoint = v.sec; //after v.delay, couse v.delay uses last $checkpoint
-    
-    v.replay = v.sec + " (+" + v.delay + ") sec";
-    return v.replay;
-  }
+    delay = this.delay(sec);
 
-  //subscribe to timer
-  subscribe(e:Function) {
-    var f = this;
-    f.subscribeEvents.push(e);
+    var info:string = sec + "";
+    if (is(this.last)) info += " (+" + delay + ") sec";
+    this.last = sec;
+    
+    return info;
   }
 }

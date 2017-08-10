@@ -1,3 +1,12 @@
+## v5.0.0
+11 aug 2017
+
+* Arc is much faster now
+* Arc's two way binding and arc.keys
+* New Arc's input method: arc.stringify()
+* Other new Arc's methods: rename(), reverse(), object(), array(), sort(), shuffle(), concat()
+* New Timer
+
 ## v4.0.0
 30 jul 2017
 

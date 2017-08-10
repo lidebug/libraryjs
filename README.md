@@ -1,5 +1,5 @@
 # Library js
-### v4.0.1 ( last update: 30 jul 2017 )
+### v5.0.0 ( last update: 11 aug 2017 )
 
 Set of javascript classes & functions, which can be used in work process. Typescript versions included.
 
@@ -27,55 +27,94 @@ Browser
 ### Arc
 Superior array
 ```javascript
-var list = new Arc();
-var dogid = list.push(  "dog"  );
-list.add( "garfield",   "cat"  );
-list.add( "ara",        "bird" );
-list.push(              "fish" );
-console.log(list.toString());
+var arc = new Arc();
+var dogid = arc.push(  "dog"  );
+arc.add( "garfield",   "cat"  );
+arc.add( "ara",        "bird" );
+arc.push(              "fish" );
+console.log(arc.stringify());
 
-list.remove(dogid);
-list.remove("garfield");
-list.change("ara", "parrot");
-console.log(list.toString());
+arc.remove(dogid);
+arc.remove("garfield");
+arc.change("ara", "parrot");
+console.log(arc.stringify());
 ```
 Looping
 ```javascript
-var list = new Arc();
+var arc = new Arc();
 
-list.add("string name 1", "string 1" );
-list.add("string name 2", "string 2" );
-list.push(                "string 3" );
-list.push(                "string 4" );
+arc.add("string name 1", "string 1" );
+arc.add("string name 2", "string 2" );
+arc.push(                "string 3" );
+arc.push(                "string 4" );
 
-for(let i in list.names) {
-  console.log(list.names[i] + ", " + list.values[i]);
-  if (list.values[i] === "string 3") break;
+for(let i in arc.names) {
+  console.log(arc.names[i] + ", " + arc.values[i]);
+  if (arc.values[i] === "string 3") break;
 }
 ```
 forEach
 ```javascript
-var list = new Arc();
+var arc = new Arc();
 
-list.add("string name 1", "string 1" );
-list.add("string name 2", "string 2" );
-list.push(                "string 3" );
-list.push(                "string 4" );
+arc.add("string name 1", "string 1" );
+arc.add("string name 2", "string 2" );
+arc.push(                "string 3" );
+arc.push(                "string 4" );
 
-list.forEach(( name, value ) => {
+arc.forEach(( name, value ) => {
   console.log(name + ", " + value);
   if (value === "string 3") return "break"; //break loop
 });
 ```
 search()
 ```javascript
-var list = new Arc();
+var arc = new Arc();
 
-list.add("string name 1", "string 1" );
-list.add("string name 2", "string 2" );
-list.add("string name 3", "string 3" );
+arc.add("string name 1", "string 1" );
+arc.add("string name 2", "string 2" );
+arc.add("string name 3", "string 3" );
 
-var name = list.search("string 2"); // name = "string name 2"
+var name = arc.search("string 2"); // name = "string name 2"
+```
+Two way binding
+```javascript
+var arc = new Arc();
+arc.add("man1", "Mike");
+arc.add("man2", "Sam");
+
+arc.values[ arc.keys["man2"] ] = "Bob";
+//But you can't do like that: arc.value("man2") = "Bob";
+```
+How to output Arc
+```javascript
+console.log( arc.toString() ); // without recursion
+console.log( arc.stringify() ); // with recursion
+```
+Sort
+```javascript
+var arc = new Arc();
+for(let i=0; i<20; i++) {
+  arc.add( "name"+i, rand(1, 200) );
+}
+
+console.log(arc.stringify());
+arc.sort((a, b) => {
+  //you are able to use a.name & a.value
+  if (a.value < b.value) return -1;
+  else if (a.value > b.value) return 1;
+  else return 0;
+});
+console.log(arc.stringify());
+```
+Other methods
+```javascript
+arc.rename(name1, name2); // Rename element
+arc.reverse(); // Reverse Arc
+arc.shuffle(); // Shuffle Arc
+arc.object(); // Return object form
+arc.array(); // Return Array form
+arc.concat(arc1, arc2, arc3, ...); // Concat Arcs
 ```
 
 ### Events
@@ -206,18 +245,33 @@ timer.start();
 console.log(timer.ms()); //counted time in milliseconds
 console.log(timer.s()); //counted time in seconds
 console.log(timer.i()); //counted time in seconds + left time since last checkpoint 
-timer.pause();
+timer.stop();
 ```
-You can also subscribe to time counting
+Example
 ```javascript
 var timer = new Timer();
 timer.start();
-timer.subscribe(ms => {
-  console.log(ms);
-  console.log(timer.i());
-});
+console.log("start: " + timer.i());
 
-setTimeout(() => { timer.pause(); }, 1000);
+setTimeout(() => {
+  console.log("checkpoint 1: " + timer.i());
+}, 200);
+setTimeout(() => {
+  console.log("checkpoint 2: " + timer.i());
+  timer.stop(); // stop counting after that
+}, 400);
+setTimeout(() => {
+  console.log("checkpoint 3: " + timer.i());
+}, 600);
+```
+How to restart
+```javascript
+var timer = new Timer();
+timer.start();
+
+// ...
+
+timer.restart();
 ```
 
 ### Loading
@@ -228,12 +282,12 @@ var loading = new Loading(() => {
 });
 
 loading.add();
-setTimeout(function() {
+setTimeout(() => {
   loading.done();
 }, 3000);
 
 loading.add();
-setTimeout(function() {
+setTimeout(() => {
   loading.done();
 }, 2000);
 
@@ -293,6 +347,8 @@ var c = or(null, null, undefined, 72, 12, null, "hi"); //c = 72
 Easy way to check that any parameters aren't set.
 Example:
 ```javascript
+somefunction({ bg: "green" });
+
 function somefunction(attr) {
   if (!check([ [attr, "background"] ])) {
     console.log("Error. Some parameters aren't set.");
@@ -301,26 +357,10 @@ function somefunction(attr) {
   
   console.log("Oh right!");
 }
-
-somefunction({ bg: "green" });
 ```
 
 And more complicated example:
 ```javascript
-function somefunction(person, name, product) {
-  if (!check([
-    [person, "age"],
-    [name],
-    [product, "body", "name"],
-    [product, "body", "charge"],
-    [product, "body", "type"]
-  ])) {
-    console.log("Error. Some parameters aren't set.");
-    return;
-  }
-  console.log("Oh right!");
-}
-
 somefunction(
   {
     age: 35,
@@ -336,6 +376,20 @@ somefunction(
     }
   }
 );
+
+function somefunction(person, name, product) {
+  if (!check([
+    [person, "age"],
+    [name],
+    [product, "body", "name"],
+    [product, "body", "charge"],
+    [product, "body", "type"]
+  ])) {
+    console.log("Error. Some parameters aren't set.");
+    return;
+  }
+  console.log("Oh right!");
+}
 ```
 
 ### rand()

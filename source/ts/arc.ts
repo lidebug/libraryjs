@@ -3,107 +3,177 @@ class Arc {
   public names:Array<any>;
   public values:Array<any>;
   public length:number;
+  public keys:any;
 
   private id:number;
 
   constructor() {
-    var f = this;
-
-    f.names = [];
-    f.values = [];
-    f.id = 0;
+    this.names = [];
+    this.values = [];
+    this.id = 0;
+    this.keys = {};
   }
 
   //Add new element with name
   add(name:string, value:any) {
-    var f = this;
-    if (f.names.indexOf(name) !== -1) {
-      f.change(name, value);
+    if (is(this.keys[name])) {
+      this.change(name, value);
       return;
     }
-    f.names.push(name);
-    f.values.push(value);
-    f.length = f.names.length;
-  }
-
-  //Add new unnamed element
-  push(value:any) {
-    var f = this;
-    var id:string = "arcUnicId" + f.id;
-    f.id++;
-    f.add(id, value);
-    return id;
+    this.names.push(name);
+    this.values.push(value);
+    this.length = this.names.length;
+    this.keys[name] = this.length - 1; 
   }
 
   //Get value by name
   value(name:string) {
-    var f = this;
-    const i = f.names.indexOf(name);
-    if (i === -1) return undefined;
-    return this.values[i];
+    return this.values[ this.keys[name] ];
+  }
+
+  //Add new unnamed element
+  push(value:any) {
+    var id:string = "arcUnicId" + this.id++;
+    this.add(id, value);
+    return id;
   }
 
   //Change value by name
   change(name:string, value:any) {
-    var f = this;
-    const i = f.names.indexOf(name);
-    if (i === -1) return;
-    this.values[i] = value;
+    if (not(this.keys[name])) return;
+    this.values[ this.keys[name] ] = value;
   }
 
   //Remote element by name
   remove(name:string) {
-    var f = this;
-    const i = f.names.indexOf(name);
-    if (i === -1) return;
-    f.names.splice(i,1);
-    f.values.splice(i,1);
-    f.length = f.names.length;
+    if (not(this.keys[name])) return;
+    this.names.splice( this.keys[name], 1 );
+    this.values.splice( this.keys[name], 1 );
+    this.length = this.names.length;
+
+    delete this.keys[name];
   }
 
   //Get name by value. Only first occurrence. 
   search(value:any) {
-    var f = this;
-    const i = f.values.indexOf(value);
+    const i = this.values.indexOf(value);
     if (i === -1) return undefined;
-    return f.names[i];
+    return this.names[i];
   }
 
-  //Function for
+  //Functional for
   forEach(callback:Function) {
-    var f = this;
-    for(let i in f.names) {
-      let breakPoint = callback(f.names[i], f.values[i]);
+    for(let i in this.names) {
+      let breakPoint = callback(this.names[i], this.values[i]);
       if (breakPoint === "break") break;
     }
   }
 
-  //Get object form. Could be used with 'for'
+  //Get string form of all elements
+  toString() {
+    var trace:string = "";
+    for(let i in this.names) {
+      trace += `[${this.names[i]}] ${this.values[i]}\n`;
+    };
+    return trace;
+  }
+
+  //Recursive output
+  stringify(tab:string="") {
+    var trace:string = "";
+    for(let i in this.names) {
+      trace += `${tab}[${this.names[i]}] `;
+      if ( isObject(this.values[i]) ) {
+        var classname = this.values[i].constructor.name;
+        if (classname === "Arc") trace += "\n" + this.values[i].stringify(tab + "__ ");
+        else trace += JSON.stringify(this.values[i]) + "\n";
+      }
+      else if ( isArray(this.values[i]) ) {
+        trace += JSON.stringify(this.values[i]) + "\n";
+      }
+      else if ( isString(this.values[i]) ) {
+        trace += `"${this.values[i]}"\n`;
+      }
+      else {
+        trace += this.values[i] + "\n";
+      }
+    };
+    return trace;
+  }
+
+  //Change name of element
+  rename(name:string, newname:string) {
+    this.add(newname, this.value(name));
+    this.remove(name);
+  }
+
+  //Reverse Arc
+  reverse() {
+    this.values.reverse();
+    this.names.reverse();
+  }
+
+  //Get object form
   object() {
-    var f = this;
     var object:any = {};
     for(let i in this.names) {
-      object[f.names[i]] = f.values[i];
+      object[this.names[i]] = this.values[i];
     }
     return object;
   }
 
-  //Get key of element by name
-  key(name:string) {
-    var f = this;
-    const i = f.names.indexOf(name);
-    if (i === -1) return undefined;
-    return i;
+  //Get complex array form
+  array() {
+    var complex = [];
+    for(let i in this.names) {
+      complex.push({
+        name: this.names[i],
+        value: this.values[i]
+      });
+    }
+    return complex;
   }
 
-  //Get string form of all elements
-  toString() {
-    var f = this;
-    var trace:string = "";
+  private updateKeys() {
+    var keys:any = {};
     for(let i in this.names) {
-      trace += `[${f.names[i]}] ${f.values[i]}\n`;
-    };
-    return trace;
+      keys[this.names[i]] = i;
+    }
+    this.keys = keys;
+  }
+
+  //Sort Arc
+  sort(handler:any) {
+    var array = this.array();
+    array.sort(handler);
+    for(let i in array) {
+      this.names[i] = array[i].name;
+      this.values[i] = array[i].value;
+    }
+    this.updateKeys();
+  }
+
+  //Shuffle Arc
+  shuffle() {
+    var array = this.array();
+    for (let i = array.length; i; i--) {
+      let j = Math.floor(Math.random() * i);
+      [array[i - 1], array[j]] = [array[j], array[i - 1]];
+    }
+    for(let i in array) {
+      this.names[i] = array[i].name;
+      this.values[i] = array[i].value;
+    }
+    this.updateKeys();
+  }
+
+  //Concat Arcs
+  concat(...arcs:Array<Arc>) {
+    for(let arc of arcs) {
+      this.names = this.names.concat(arc.names);
+      this.values = this.values.concat(arc.values);
+    }
+    this.updateKeys();
   }
 
 }
