@@ -1,5 +1,5 @@
 # Library js
-### v5.0.0 ( last update: 11 aug 2017 )
+### v5.1.0 ( last update: 11 aug 2017 )
 
 Set of javascript classes & functions, which can be used in work process. Typescript versions included.
 
@@ -76,6 +76,24 @@ arc.add("string name 2", "string 2" );
 arc.add("string name 3", "string 3" );
 
 var name = arc.search("string 2"); // name = "string name 2"
+```
+copy() & share()
+```javascript
+var arc1 = new Arc();
+
+name1 = arc1.push("bob1");
+name2 = arc1.push("bob2");
+name3 = arc1.push("bob3");
+name4 = arc1.push("oleg");
+name5 = arc1.push("mike");
+
+var arc2 = new Arc();
+arc1.share(arc2, [ name2, name3 ]); // arc1 -> arc2
+console.log(arc2.stringify());
+
+var arc3 = new Arc();
+arc3.copy(arc1); // arc3 <- arc1
+console.log(arc3.stringify());
 ```
 Two way binding
 ```javascript

@@ -1,3 +1,9 @@
+## v5.1.0
+11 aug 2017
+
+* arc.copy() & arc.share()
+* Arc small fix
+
 ## v5.0.0
 11 aug 2017
 

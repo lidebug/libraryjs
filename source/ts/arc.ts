@@ -69,6 +69,23 @@ class Arc {
     }
   }
 
+  //Copy Arc
+  copy(arc:Arc) {
+    this.values = arc.values.slice();
+    this.names = arc.names.slice();
+    this.length = arc.length;
+    this.id = Math.max(this.id, arc.id);
+    this.updateKeys();
+  }
+
+  //Share values
+  share(arc:Arc, names:Array<any>) {
+    for(let name of names) {
+      arc.add( name, this.values[ this.keys[name] ] );
+    }
+    arc.id = Math.max(arc.id, this.id);
+  }
+
   //Get string form of all elements
   toString() {
     var trace:string = "";
@@ -172,7 +189,9 @@ class Arc {
     for(let arc of arcs) {
       this.names = this.names.concat(arc.names);
       this.values = this.values.concat(arc.values);
+      this.id = Math.max(this.id, arc.id);
     }
+    this.length = this.names.length;
     this.updateKeys();
   }
 
