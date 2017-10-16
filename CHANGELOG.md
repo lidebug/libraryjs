@@ -1,3 +1,8 @@
+## v5.1.1
+16 oct 2017
+
+* Arc default "length = undefined" bug is fixed
+
 ## v5.1.0
 11 aug 2017
 

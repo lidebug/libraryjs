@@ -2,7 +2,7 @@
 class Arc {
   public names:Array<any>;
   public values:Array<any>;
-  public length:number;
+  public length:number = 0;
   public keys:any;
 
   private id:number;

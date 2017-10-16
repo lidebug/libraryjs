@@ -1,5 +1,5 @@
 # Library js
-### v5.1.0 ( last update: 11 aug 2017 )
+### v5.1.1( last update: 16 oct 2017 )
 
 Set of javascript classes & functions, which can be used in work process. Typescript versions included.
 
@@ -135,6 +135,43 @@ arc.array(); // Return Array form
 arc.concat(arc1, arc2, arc3, ...); // Concat Arcs
 ```
 
+### is()
+Is object exist?
+```javascript
+is(null); //false
+is(undefined); //false
+is(NaN); //false
+is(0); //true
+is(""); //true
+is([]); //true
+is({}); //true
+is(false); //true
+is("hello"); //true
+```
+
+Check types
+```javascript
+isFunction(function() {}); //true
+isArray([ 1, 2, 3 ]); //true
+isObject({ age: 99 }); //true
+isNumber(122); //true
+isString("deal with it"); //true
+isBoolean(false); //true
+```
+
+### not()
+Not exist?
+```javascript
+not(undefined); //true
+//not(var) = !is(var)
+```
+
+### or()
+It chooses first existing object
+```javascript
+var c = or(null, null, undefined, 72, 12, null, "hi"); //c = 72
+```
+
 ### Events
 Easy way to run lots of functions
 ```javascript
@@ -177,7 +214,7 @@ events.pick(fun2);
 ```
 
 ### Async
-Superior Promise
+Superior Promise. You can "resolve" async in any place in your code. And as much times as needed.
 ```javascript
 var msg = new Async();
 
@@ -253,7 +290,7 @@ function receive(res) {
 ```
 
 ### Timer
-It's just a timer...
+It's just a timer.
 ```javascript
 var timer = new Timer();
 timer.start();
@@ -322,43 +359,6 @@ var interval = new Interval(100, () => {
 var timeout = new Timeout(1000, () => {
   interval.stop();
 });
-```
-
-### is()
-Is object exist?
-```javascript
-is(null); //false
-is(undefined); //false
-is(NaN); //false
-is(0); //true
-is(""); //true
-is([]); //true
-is({}); //true
-is(false); //true
-is("hello"); //true
-```
-
-Check types
-```javascript
-isFunction(function() {}); //true
-isArray([ 1, 2, 3 ]); //true
-isObject({ age: 99 }); //true
-isNumber(122); //true
-isString("deal with it"); //true
-isBoolean(false); //true
-```
-
-### not()
-Not exist?
-```javascript
-not(undefined); //true
-//not(var) = !is(var)
-```
-
-### or()
-It chooses first existing object
-```javascript
-var c = or(null, null, undefined, 72, 12, null, "hi"); //c = 72
 ```
 
 ### check()
