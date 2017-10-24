@@ -1,3 +1,9 @@
+## v5.2.0
+24 oct 2017
+
+* New function getErrors()
+* Arc import from array & object
+
 ## v5.1.1
 16 oct 2017
 

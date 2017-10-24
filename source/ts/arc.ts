@@ -139,6 +139,13 @@ class Arc {
     return object;
   }
 
+  //Import from object form
+  importObject(object:any) {
+    for(let name in object) {
+      this.add(name, object[name]);
+    }
+  }
+
   //Get complex array form
   array() {
     var complex = [];
@@ -149,6 +156,13 @@ class Arc {
       });
     }
     return complex;
+  }
+
+  //Import from array form
+  importArray(array:Array<any>) {
+    for(let v of array) {
+      this.push(v);
+    }
   }
 
   private updateKeys() {

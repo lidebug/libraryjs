@@ -73,3 +73,7 @@ class Errors {
   }
 
 }
+
+function getErrors(errors) {
+  return (new Errors()).importErrors(errors).getErrors();
+}

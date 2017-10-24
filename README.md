@@ -1,5 +1,5 @@
 # Library js
-### v5.1.1( last update: 16 oct 2017 )
+### v5.2.0 ( last update: 24 oct 2017 )
 
 Set of javascript classes & functions, which can be used in work process. Typescript versions included.
 
@@ -76,6 +76,22 @@ arc.add("string name 2", "string 2" );
 arc.add("string name 3", "string 3" );
 
 var name = arc.search("string 2"); // name = "string name 2"
+```
+import from array and object
+```javascript
+var array = [1,2,3,4,5,6];
+var arc1 = new Arc();
+arc1.importArray(array);
+
+var object = {
+  name: "mike",
+  age: 35
+};
+var arc2 = new Arc();
+arc2.importObject(object);
+
+console.log(arc1.stringify());
+console.log(arc2.stringify());
 ```
 copy() & share()
 ```javascript
